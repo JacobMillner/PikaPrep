@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  backend:
+    build: /backend
+    image: tornado
+    volumes:
+     - ./backend:/var/www/backend
+    ports:
+      - 8888:8888
+    environment:
+      - APP_ENV=dev
