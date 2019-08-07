@@ -1,0 +1,50 @@
+Table users {
+  id int [primary key]
+  username varchar
+  email varchar [unique]
+  password varchar
+  created_at datetime
+ }
+ 
+Table mealEntries {
+  id int [primary key]
+  meal_date date
+  created_at datetime
+  meal_id int
+  user_id int
+ }
+ 
+Table meals {
+  id int [primary key]
+  name varchar
+  description varchar
+  photo_url varchar
+  recipe_url varchar
+  calories int
+  carbs int
+  fat int
+  protein int
+  created_at datetime
+ }
+ 
+Table userMeals {
+  id int [primary key]
+  user_id int
+  meal_id int
+ }
+ 
+Ref mealentry_to_meal {
+  meals.id - mealEntries.meal_id
+}
+
+Ref users_mealEntrie {
+  users.id < mealEntries.user_id
+}
+
+Ref users_userMeals {
+  users.id > userMeals.user_id
+}
+
+Ref userMeals_meals {
+  meals.id > userMeals.meal_id
+}
