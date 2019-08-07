@@ -16,14 +16,16 @@ Table mealEntries {
  
 Table meals {
   id int [primary key]
-  name varchar
+  name varchar [unique]
   description varchar
   photo_url varchar
-  recipe_url varchar
+  recipe_url varchar [unique]
   calories int
   carbs int
   fat int
   protein int
+  servings int
+  cooking_time int
   created_at datetime
  }
  
