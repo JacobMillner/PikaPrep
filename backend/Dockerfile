@@ -3,7 +3,7 @@ FROM python:3
 RUN apt-get update
 RUN pip3 install --upgrade pip
 
-WORKDIR /var/www/app
+WORKDIR /var/www/backend
 
 COPY requirements.txt ./
 
