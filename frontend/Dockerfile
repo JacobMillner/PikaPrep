@@ -4,11 +4,9 @@ WORKDIR /var/www/frontend
 
 ENV PATH /var/www/frontend/node_modules/.bin:$PATH
 
-COPY package.json /var/www/frontend/package.json ./
-
 COPY . .
 
-RUN npm install --silent
+RUN npm install
 
 EXPOSE 3000
 

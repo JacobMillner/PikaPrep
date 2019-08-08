@@ -14,19 +14,16 @@ services:
 
   frontend:
     container_name: frontend
-    build:
-      context: .
-      dockerfile: Dockerfile
+    build: ./frontend
     volumes:
       - ./frontend:/var/www/frontend
-      - '/var/www/frontend/node_modules'
     ports:
       - 3000:3000
     environment:
       - NODE_ENV=development
 
   db:
-    image: postgres:11.5
+    image: postgres:11
     container_name: postgres
     restart: always
     ports:
@@ -36,4 +33,9 @@ services:
       - POSTGRES_USER=myuser
       - POSTGRES_PASSWORD=mypassword
     volumes:
-      - database_data:/var/lib/postgresql/data
+      - postgresql:/var/lib/postgresql/data
+      - postgresql_data:/var/lib/postgresql/data
+
+volumes:
+  postgresql:
+  postgresql_data:
