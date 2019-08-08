@@ -2,6 +2,7 @@ version: '3'
 
 services:
   backend:
+    container_name: backend
     build: ./backend
     image: tornado
     volumes:
@@ -10,3 +11,29 @@ services:
       - 8888:8888
     environment:
       - APP_ENV=dev
+
+  frontend:
+    container_name: frontend
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./frontend:/var/www/frontend
+      - '/var/www/frontend/node_modules'
+    ports:
+      - 3000:3000
+    environment:
+      - NODE_ENV=development
+
+  db:
+    image: postgres:11.5
+    container_name: postgres
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_DB=pika_prep
+      - POSTGRES_USER=myuser
+      - POSTGRES_PASSWORD=mypassword
+    volumes:
+      - database_data:/var/lib/postgresql/data
