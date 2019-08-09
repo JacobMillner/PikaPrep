@@ -9,6 +9,7 @@ Table users {
 Table mealEntries {
   id int [primary key]
   meal_date date
+  created_by int
   created_at datetime
   meal_id int
   user_id int
@@ -17,6 +18,7 @@ Table mealEntries {
 Table meals {
   id int [primary key]
   name varchar [unique]
+  created_by int
   description varchar
   photo_url varchar
   recipe_url varchar [unique]
@@ -33,14 +35,16 @@ Table userMeals {
   id int [primary key]
   user_id int
   meal_id int
- }
+}
+ 
+Table userMealEntries {
+  id int [primary key]
+  user_id int
+  mealEntry_id int
+}
  
 Ref mealentry_to_meal {
   meals.id - mealEntries.meal_id
-}
-
-Ref users_mealEntrie {
-  users.id < mealEntries.user_id
 }
 
 Ref users_userMeals {
@@ -50,3 +54,8 @@ Ref users_userMeals {
 Ref userMeals_meals {
   meals.id > userMeals.meal_id
 }
+
+
+Ref: "users"."id" < "userMealEntries"."user_id"
+
+Ref: "userMealEntries"."mealEntry_id" < "mealEntries"."id"
