@@ -26,6 +26,8 @@ services:
     image: postgres:11
     container_name: postgres
     restart: always
+    build:
+      context: ./database
     ports:
       - 5432:5432
     environment:
