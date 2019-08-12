@@ -5,6 +5,8 @@ from sqlalchemy import create_engine
 from tornado_sqlalchemy import make_session_factory
 from tornado_sqlalchemy import SessionMixin, as_future
 from entities.user import User, UserSchema
+from entities.meal import Meal, MealSchema
+from entities.userMeals import UserMeal, UserMealSchema
 from entities.entity import Base
 
 
