@@ -35,8 +35,8 @@ services:
       - POSTGRES_USER=myuser
       - POSTGRES_PASSWORD=mypassword
     volumes:
-      - postgresql:/var/lib/postgresql/data
-      - postgresql_data:/var/lib/postgresql/data
+      - postgresql:/var/lib/postgresql/data:nocopy
+      - postgresql_data:/var/lib/postgresql/data:nocopy
 
 volumes:
   postgresql:
