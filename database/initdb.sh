@@ -1,2 +1,2 @@
 #!/bin/bash
-echo "****CREATING DATABASE*****"
+echo "****CREATING DATABASE*****" > /dev/console

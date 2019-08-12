@@ -13,4 +13,4 @@ COPY . .
 
 EXPOSE 8888
 
-CMD python server.py
+CMD python ./src/server.py

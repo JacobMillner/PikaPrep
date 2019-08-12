@@ -11,6 +11,7 @@ services:
       - 8888:8888
     environment:
       - APP_ENV=dev
+      - DATABASE_URL=postgres://myuser:mypassword@postgres:5432/pika_prep
 
   frontend:
     container_name: frontend
@@ -26,8 +27,7 @@ services:
     image: postgres:11
     container_name: postgres
     restart: always
-    build:
-      context: ./database
+    build: ./database
     ports:
       - 5432:5432
     environment:

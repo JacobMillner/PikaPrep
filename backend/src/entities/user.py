@@ -5,7 +5,7 @@ from .entity import Entity, Base
 
 
 class User(Entity, Base):
-    __tablename__ = 'users'
+    __tablename__ = 'user'
 
     id = Column(Integer, primary_key=True)
     name = Column(String(), unique=True)
