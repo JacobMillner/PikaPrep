@@ -7,7 +7,7 @@ class UserMealEntry(Entity, Base):
 
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey('users.id'))
-    mealEntry_id = Column(Integer, ForeignKey('mealEmtries.id'))
+    mealEntry_id = Column(Integer, ForeignKey('mealEntries.id'))
    
     def __init__(self, user_id=None, mealEntry_id=None):
         self.user_id = user_id
