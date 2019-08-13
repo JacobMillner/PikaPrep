@@ -7,6 +7,8 @@ from tornado_sqlalchemy import SessionMixin, as_future
 from entities.user import User, UserSchema
 from entities.meal import Meal, MealSchema
 from entities.userMeals import UserMeal, UserMealSchema
+from entities.userMealEntries import UserMealEntry, UserMealEntrySchema
+from entities.mealEntries import MealEntry, MealEntrySchema
 from entities.entity import Base
 
 

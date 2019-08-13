@@ -2,18 +2,18 @@ from sqlalchemy import Column, Integer, String, ForeignKey
 from marshmallow import Schema, fields
 from .entity import Entity, Base
 
-class UserMeal(Entity, Base):
-    __tablename__ = 'userMeals'
+class UserMealEntry(Entity, Base):
+    __tablename__ = 'userMealEntries'
 
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey('users.id'))
-    meal_id = Column(Integer, ForeignKey('meals.id'))
+    mealEntry_id = Column(Integer, ForeignKey('mealEmtries.id'))
    
-    def __init__(self, user_id=None, meal_id=None):
+    def __init__(self, user_id=None, mealEntry_id=None):
         self.user_id = user_id
-        self.meal_id = meal_id
+        self.mealEntry_id = mealEntry_id
 
-class UserMealSchema(Schema):
+class UserMealEntrySchema(Schema):
     id = fields.Number()
     user_id = fields.Int()
-    meal_id = fields.Int()
+    mealEntry_id = fields.Int()
