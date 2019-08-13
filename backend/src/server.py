@@ -1,6 +1,7 @@
 import os
 import tornado.ioloop
 import tornado.web
+from auth import login_required
 from sqlalchemy import create_engine
 from tornado_sqlalchemy import make_session_factory
 from tornado_sqlalchemy import SessionMixin, as_future
@@ -17,6 +18,7 @@ class MainHandler(tornado.web.RequestHandler):
         self.write("Hello, world")
 
 # for testing purposes
+@login_required
 class UsersTestHandler(SessionMixin, tornado.web.RequestHandler):
     async def get(self):
             with self.make_session() as session:

@@ -12,6 +12,7 @@ services:
     environment:
       - APP_ENV=dev
       - DATABASE_URL=postgres://myuser:mypassword@postgres:5432/pika_prep
+      - JWT_SECRET=my_secret_key
 
   frontend:
     container_name: frontend
