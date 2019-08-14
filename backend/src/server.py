@@ -3,8 +3,7 @@ import tornado.ioloop
 import tornado.web
 from auth import login_required
 from sqlalchemy import create_engine
-from tornado_sqlalchemy import make_session_factory
-from tornado_sqlalchemy import SessionMixin, as_future
+from tornado_sqlalchemy import SessionMixin, as_future, make_session_factory
 from entities.user import User, UserSchema
 from entities.meal import Meal, MealSchema
 from entities.userMeals import UserMeal, UserMealSchema
