@@ -4,4 +4,4 @@ from .base import BaseHandler
 
 class LoginHandler(BaseHandler):
     def get(self):
-        self.write("Let's login")
+        self.wrtie_line("Let's login")
