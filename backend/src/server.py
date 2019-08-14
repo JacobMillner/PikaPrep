@@ -11,7 +11,7 @@ from entities.userMeals import UserMeal, UserMealSchema
 from entities.userMealEntries import UserMealEntry, UserMealEntrySchema
 from entities.mealEntries import MealEntry, MealEntrySchema
 from entities.entity import Base
-
+from handlers.users import UsersHandler
 
 class MainHandler(tornado.web.RequestHandler):
     def get(self):
@@ -19,7 +19,7 @@ class MainHandler(tornado.web.RequestHandler):
 
 # for testing purposes
 @login_required
-class UsersTestHandler(SessionMixin, tornado.web.RequestHandler):
+class TestHandler(SessionMixin, tornado.web.RequestHandler):
     async def get(self):
             with self.make_session() as session:
                 count = await as_future(session.query(User).count)
@@ -34,7 +34,8 @@ def make_app():
     factory = make_session_factory(os.environ.get('DATABASE_URL'))
     return tornado.web.Application([
         (r"/", MainHandler),
-        (r"/users", UsersTestHandler),
+        (r"/test", TestHandler),
+        (r"/users", UsersHandler),
     ],
     session_factory = factory)
 
