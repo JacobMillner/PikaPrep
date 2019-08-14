@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, String
-from marshmallow import Schema, fields
+from marshmallow import Schema, fields, post_load
 from .entity import Entity, Base
 
 class User(Entity, Base):

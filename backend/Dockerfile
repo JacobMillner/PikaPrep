@@ -13,4 +13,4 @@ COPY . .
 
 EXPOSE 8888
 
-CMD python ./src/server.py
+CMD ["python","-u","./src/server.py"]
