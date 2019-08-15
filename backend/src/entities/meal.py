@@ -22,6 +22,7 @@ class Meal(Entity, Base):
         self, name=None, description=None, photo_url=None,
         recipe_url=None, calories=None, carbs=None, fat=None,
         protein=None, servings=None, cooking_time=None, created_by=None):
+        Entity.__init__(self)
         self.name = name
         self.description = description
         self.photo_url = photo_url
@@ -38,7 +39,7 @@ class Meal(Entity, Base):
         return '<Meal %r>' % (self.name)
 
 class MealSchema(Schema):
-    id = fields.Number()
+    id = fields.Int()
     name = fields.Str()
     description = fields.Str()
     photo_url = fields.Str()

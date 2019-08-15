@@ -10,6 +10,7 @@ class UserMeal(Entity, Base):
     meal_id = Column(Integer, ForeignKey('meals.id'))
    
     def __init__(self, user_id=None, meal_id=None):
+        Entity.__init__(self)
         self.user_id = user_id
         self.meal_id = meal_id
 

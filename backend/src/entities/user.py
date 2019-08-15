@@ -11,6 +11,7 @@ class User(Entity, Base):
     password = Column(String())
 
     def __init__(self, username=None, email=None, password=None):
+        Entity.__init__(self)
         self.username = username
         self.email = email
         self.password = password
@@ -19,7 +20,7 @@ class User(Entity, Base):
         return '<User %r>' % (self.username)
 
 class UserSchema(Schema):
-    id = fields.Number()
+    id = fields.Int()
     username = fields.Str()
     email = fields.Str()
     password = fields.Str()

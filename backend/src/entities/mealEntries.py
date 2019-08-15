@@ -11,6 +11,7 @@ class MealEntry(Entity, Base):
     meal_id = Column(Integer())
 
     def __init__(self, meal_date=None, created_by=None, meal_id=None):
+        Entity.__init__(self)
         self.meal_date = meal_date
         self.created_by = created_by
         self.meal_id = meal_id
@@ -19,7 +20,7 @@ class MealEntry(Entity, Base):
         return '<MealEntry %r>' % (self.username)
 
 class MealEntrySchema(Schema):
-    id = fields.Number()
+    id = fields.Int()
     meal_date = fields.Date()
     created_by = fields.Int()
     meal_id = fields.Int()
