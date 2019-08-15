@@ -7,10 +7,15 @@ from .base import BaseHandler
 
 class UsersHandler(SessionMixin, BaseHandler):
     async def get(self):
-        self.wrtie_line("Let's get the users!")
         with self.make_session() as session:
-                count = await as_future(session.query(User).count)
-        self.wrtie_line('{} users so far!'.format(count))
+                user_objects = await as_future(session.query(User).all)
+                # transforming into JSON-serializable objects
+                if len(user_objects) != 0:
+                    schema = UserSchema(many=True)
+                    users = schema.dump(user_objects)
+                    self.respond(users, "Success", 200)
+                else:
+                    self.respond(msg="No Users!")
     
     # create a user
     async def post(self):
