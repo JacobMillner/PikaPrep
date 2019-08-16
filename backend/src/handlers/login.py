@@ -1,4 +1,6 @@
 import tornado
+import jwt
+from datetime import datetime
 import json, hashlib, binascii, os
 from tornado_sqlalchemy import SessionMixin, as_future
 from .base import BaseHandler
@@ -19,16 +21,15 @@ class LoginHandler(SessionMixin, BaseHandler):
                 user_object = await as_future(session.query(User).\
                     filter(User.email == posted_user.data['email']).first)
                 if user_object is not None:
-                    user = UserSchema(only=('id', 'username', 'email'))\
+                    if verify_password(user_object.password, posted_user.data['password']):
+                        self.encoded = jwt.encode({'iat': str(datetime.now())},\
+                             os.environ.get('JWT_SECRET'),\
+                                  algorithm='HS256')
+                        user_resp = UserSchema(only=('id', 'username', 'email'))\
                             .dump(user_object)
-                    print(str(user.data))
-                    if verify_password(user.data['password'], posted_user['password']):
-                        print('we made it!!!!')
-                        jwt = 'foo'
-                        resp_dic = { 'user': user.data, 'jwt': jwt }
+                        resp_dic = { 'user': user_resp.data, 'jwt': self.encoded.decode('ascii') }
                         print(str(resp_dic))
                         self.respond(resp_dic, 'Success', 500)
-
                     else:
                         self.respond(msg='Password Incorrect.', code=400)
                 else:
@@ -38,13 +39,11 @@ class LoginHandler(SessionMixin, BaseHandler):
 
 def verify_password(stored_password, provided_password):
     """Verify a stored password against one provided by user"""
-    print('=====================================')
     salt = stored_password[:64]
     stored_password = stored_password[64:]
     pwdhash = hashlib.pbkdf2_hmac('sha512', 
                                   provided_password.encode('utf-8'), 
                                   salt.encode('ascii'), 
                                   100000)
-    print('*************')
     pwdhash = binascii.hexlify(pwdhash).decode('ascii')
     return pwdhash == stored_password
