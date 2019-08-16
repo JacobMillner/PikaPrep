@@ -28,7 +28,6 @@ class LoginHandler(SessionMixin, BaseHandler):
                         user_resp = UserSchema(only=('id', 'username', 'email'))\
                             .dump(user_object)
                         resp_dic = { 'user': user_resp.data, 'jwt': self.encoded.decode('ascii') }
-                        print(str(resp_dic))
                         self.respond(resp_dic, 'Success', 500)
                     else:
                         self.respond(msg='Password Incorrect.', code=400)
