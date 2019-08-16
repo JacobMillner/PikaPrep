@@ -5,10 +5,10 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={require('./static/pika.jpg')} />
         <p>
-          Pika Prep
+          <h1>Pika Prep</h1>
         </p>
+        <img src={require('./static/pika.jpg')}  alt="Our favorite animal." />
       </header>
     </div>
   );
