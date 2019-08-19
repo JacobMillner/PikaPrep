@@ -5,7 +5,6 @@ function App() {
   return (
     <div>
       <MainNavBar />
-      <p>Pika Prep</p>
       <img src={require('./static/pika.jpg')} alt="Our favorite animal." />
     </div>
   );
