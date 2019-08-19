@@ -1,11 +1,12 @@
 import React from 'react';
 import MainNavBar from './Components/MainNavBar/MainNavBar';
+import Splash from './Components/Splash/Splash';
 
 function App() {
   return (
     <div>
       <MainNavBar />
-      <img src={require('./static/pika.jpg')} alt="Our favorite animal." />
+      <Splash />
     </div>
   );
 }
