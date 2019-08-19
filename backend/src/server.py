@@ -1,6 +1,7 @@
 import os
 import tornado.ioloop
 import tornado.web
+import ptvsd
 from auth import login_required
 from sqlalchemy import create_engine
 from tornado_sqlalchemy import SessionMixin, as_future, make_session_factory
@@ -43,4 +44,7 @@ def make_app():
 if __name__ == "__main__":
     app = make_app()
     app.listen(8888)
+    ptvsd.enable_attach(address=('0.0.0.0', 8889))
+    #ptvsd.wait_for_attach()
+    #print('ptvsd debugging is started')
     tornado.ioloop.IOLoop.current().start()

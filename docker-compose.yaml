@@ -1,29 +1,6 @@
 version: '3'
 
 services:
-  backend:
-    container_name: backend
-    build: ./backend
-    image: tornado
-    volumes:
-     - ./backend:/var/www/backend
-    ports:
-      - 8888:8888
-    environment:
-      - APP_ENV=dev
-      - DATABASE_URL=postgres://myuser:mypassword@postgres:5432/pika_prep
-      - JWT_SECRET=my_secret_key
-
-  frontend:
-    container_name: frontend
-    build: ./frontend
-    volumes:
-      - ./frontend:/var/www/frontend
-    ports:
-      - 3000:3000
-    environment:
-      - NODE_ENV=development
-
   db:
     image: postgres:11
     container_name: postgres
@@ -38,6 +15,30 @@ services:
     volumes:
       - postgresql:/var/lib/postgresql/data:nocopy
       - postgresql_data:/var/lib/postgresql/data:nocopy
+
+  backend:
+    container_name: backend
+    build: ./backend
+    image: tornado
+    volumes:
+     - ./backend:/var/www/backend
+    ports:
+      - 8888:8888
+      - 8889:8889
+    environment:
+      - APP_ENV=dev
+      - DATABASE_URL=postgres://myuser:mypassword@postgres:5432/pika_prep
+      - JWT_SECRET=my_secret_key
+
+  frontend:
+    container_name: frontend
+    build: ./frontend
+    volumes:
+      - ./frontend:/var/www/frontend
+    ports:
+      - 3000:3000
+    environment:
+      - NODE_ENV=development
 
 volumes:
   postgresql:
