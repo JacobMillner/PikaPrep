@@ -22,6 +22,8 @@ services:
     image: tornado
     volumes:
      - ./backend:/var/www/backend
+    depends_on:
+      - "db"
     ports:
       - 8888:8888
       - 8889:8889
