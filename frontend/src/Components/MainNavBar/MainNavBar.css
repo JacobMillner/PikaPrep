@@ -15,15 +15,10 @@ ul {
     list-style-type: none;
 }
 a {
+    text-decoration: none;
     color: white;
-    text-decoration: none;
 }
-a:hover {
-    text-decoration: underline;
-}
-.logo a:hover {
-    text-decoration: none;
-}
+
 .menu li {
     font-size: 16px;
     padding: 15px 5px;
