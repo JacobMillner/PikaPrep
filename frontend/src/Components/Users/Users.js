@@ -26,11 +26,11 @@ class Users extends Component {
                 {
                     this.state.users && this.state.users.map(user => (
                         <div key={user.username} className="eggplant">
-                            <Link to={`/users/${user.username}`} className="purp">
+                            <Link to={`/users/${user.username}`} className="eggplant">
                                 <div className="flex-card">
-                                    <div className="card-header">UserName: {user.username}</div>
                                     <div className="card-body">
-                                        <h4 className="card-title">{user.email}</h4>
+                                        <img src={"https://www.gravatar.com/avatar/" + user.gravatar + "?d=robohash"} alt="profile pic" />
+                                        <h4 className="card-title">{user.username}</h4>
                                     </div>
                                 </div>
                             </Link>
