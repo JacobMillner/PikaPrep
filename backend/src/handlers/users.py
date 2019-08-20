@@ -13,7 +13,8 @@ class UsersHandler(SessionMixin, BaseHandler):
                 if len(user_objects) != 0:
                     schema = UserSchema(many=True)
                     users = schema.dump(user_objects)
-                    self.respond(users, "Success", 200)
+                    print(users)
+                    self.respond(users.data, "Success", 200)
                 else:
                     self.respond(msg="No Users!")
     
