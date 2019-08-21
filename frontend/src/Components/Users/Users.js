@@ -25,8 +25,8 @@ class Users extends Component {
                 {this.state.users === null && <p>Loading users...</p>}
                 {
                     this.state.users && this.state.users.map(user => (
-                        <div key={user.username} className="eggplant">
-                            <Link to={`/users/${user.username}`} className="eggplant">
+                        <div key={user.id} className="eggplant">
+                            <Link to={`/user/${user.id}`} className="eggplant">
                                 <div className="flex-card">
                                     <div className="card-body">
                                         <img src={"https://www.gravatar.com/avatar/" + user.gravatar + "?d=robohash"} alt="profile pic" />

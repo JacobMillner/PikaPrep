@@ -12,6 +12,7 @@ from entities.userMealEntries import UserMealEntry, UserMealEntrySchema
 from entities.mealEntries import MealEntry, MealEntrySchema
 from entities.entity import Base
 from handlers.users import UsersHandler
+from handlers.user import UserHandler
 from handlers.login import LoginHandler
 
 class MainHandler(tornado.web.RequestHandler):
@@ -37,6 +38,7 @@ def make_app():
         (r"/", MainHandler),
         (r"/test", TestHandler),
         (r"/users", UsersHandler),
+        (r"/user/([^/]+)?", UserHandler),
         (r"/login", LoginHandler),
     ],
     session_factory = factory)
