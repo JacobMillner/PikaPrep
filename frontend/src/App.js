@@ -4,12 +4,14 @@ import MainNavBar from './Components/MainNavBar/MainNavBar';
 import Splash from './Components/Splash/Splash';
 import Users from './Components/Users/Users';
 import User from './Components/User/User';
+import Login from './Components/Login/Login';
 
 function App() {
   return (
     <div>
       <MainNavBar />
       <Route exact path='/' component={Splash} />
+      <Route exact path='/login/' component={Login} />
       <Route exact path='/users/' component={Users} />
       <Route exact path='/user/:id' component={User} />
     </div>
