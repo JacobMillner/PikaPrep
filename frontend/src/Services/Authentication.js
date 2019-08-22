@@ -2,16 +2,10 @@ import decode from 'jwt-decode';
 import axios from 'axios';
 
 export default class AuthService {
-
-    constructor(domain) {
-        // only used in production mode
-        this.domain = domain || 'http://localhost:8888';
-    }
-
     login = (username, password) => {
 
         // Get a token from api server using the fetch api
-        return axios.post(this.domain + '/user', {
+        return axios.post('/user', {
             username: username,
             password: password
         }).then(res => {

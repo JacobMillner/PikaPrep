@@ -12,7 +12,7 @@ class Users extends Component {
     }
 
     async componentDidMount() {
-        const users = (await axios.get('http://localhost:8888/users')).data;
+        const users = (await axios.get('/users')).data;
         console.log(users)
         this.setState({
             users: users.data

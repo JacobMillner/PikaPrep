@@ -11,7 +11,7 @@ class User extends Component {
 
     async componentDidMount() {
         const { match: { params } } = this.props;
-        const user = (await axios.get(`http://localhost:8888/user/${params.id}`)).data;
+        const user = (await axios.get(`/user/${params.id}`)).data;
         this.setState({
             user: user.data
         });
