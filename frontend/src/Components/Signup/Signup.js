@@ -94,7 +94,7 @@ class Signup extends Component {
 }
 
 Signup.propTypes = {
-    addFlashMessage: PropTypes.isRequired
+    addFlashMessage: PropTypes.func.isRequired 
 }
 
 export default connect(null, { addFlashMessage })(Signup);

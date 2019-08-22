@@ -3,6 +3,7 @@ import { Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { createStore, compose } from 'redux';
 import MainNavBar from './Components/MainNavBar/MainNavBar';
+import FlashMessagesList from './Components/Flash/FlashMessagesList';
 import Splash from './Components/Splash/Splash';
 import Users from './Components/Users/Users';
 import User from './Components/User/User';
@@ -22,6 +23,7 @@ function App() {
     <Provider store={store}>
       <div>
         <MainNavBar />
+        <FlashMessagesList />
         <Route exact path='/' component={Splash} />
         <Route exact path='/login/' component={Login} />
         <Route exact path='/signup/' component={Signup} />
