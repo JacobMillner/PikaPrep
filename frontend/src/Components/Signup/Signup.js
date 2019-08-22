@@ -1,7 +1,10 @@
 import React, { Component } from "react";
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { sendFlashMessage } from '../Action/Action';
 import API from '../../Util/api';
 
-export default class Signup extends Component {
+class Signup extends Component {
     constructor(props) {
         super(props);
 
@@ -12,14 +15,31 @@ export default class Signup extends Component {
         };
     }
 
+
     handleChange = event => {
         this.setState({
             [event.target.id]: event.target.value
         });
     }
 
+    getPostData = () => {
+        return {
+            data:
+            {
+                user: this.state
+            }
+        }
+    }
+
     handleSubmit = event => {
-        API.post('/user/', { data: this.state});
+        event.preventDefault();
+
+        API.post('/user', this.getPostData())
+            .then((res) => {
+                console.log(res);
+                this.props.sendFlashMessage('You win!', 'alert-success');
+                this.props.history.push('/');
+            });
     }
 
     validateForm() {
@@ -28,8 +48,10 @@ export default class Signup extends Component {
             && this.state.username.length > 0;
     }
 
+
     render() {
         return (
+
             <div className="Signup">
                 <form onSubmit={this.handleSubmit}>
                     <div id="email">
@@ -68,3 +90,9 @@ export default class Signup extends Component {
         )
     };
 }
+
+const mapPropsToDispatch = (dispatch) => {
+    return bindActionCreators({ sendFlashMessage }, dispatch);
+};
+
+export default connect(null, mapPropsToDispatch)(Signup);  

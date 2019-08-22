@@ -1,5 +1,7 @@
 import React from 'react';
-import {Route} from 'react-router-dom';
+import { Route } from 'react-router-dom';
+import { Provider } from 'react-redux'
+import FlashMessage from './Components/FlashMessage/FlashMessage';   
 import MainNavBar from './Components/MainNavBar/MainNavBar';
 import Splash from './Components/Splash/Splash';
 import Users from './Components/Users/Users';
@@ -9,14 +11,14 @@ import Signup from './Components/Signup/Signup';
 
 function App() {
   return (
-    <div>
-      <MainNavBar />
-      <Route exact path='/' component={Splash} />
-      <Route exact path='/login/' component={Login} />
-      <Route exact path='/signup/' component={Signup} />
-      <Route exact path='/users/' component={Users} />
-      <Route exact path='/user/:id' component={User} />
-    </div>
+      <div>
+        <MainNavBar />
+        <Route exact path='/' component={Splash} />
+        <Route exact path='/login/' component={Login} />
+        <Route exact path='/signup/' component={Signup} />
+        <Route exact path='/users/' component={Users} />
+        <Route exact path='/user/:id' component={User} />
+      </div>
   );
 }
 
