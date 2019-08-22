@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { sendFlashMessage } from '../Action/Action';
+//import { connect } from 'react-redux';
+//import { bindActionCreators } from 'redux';
+//import { sendFlashMessage } from '../../Actions/Action';
 import API from '../../Util/api';
 
 class Signup extends Component {
@@ -37,7 +37,7 @@ class Signup extends Component {
         API.post('/user', this.getPostData())
             .then((res) => {
                 console.log(res);
-                this.props.sendFlashMessage('You win!', 'alert-success');
+                //this.props.sendFlashMessage('You win!', 'alert-success');
                 this.props.history.push('/');
             });
     }
@@ -91,8 +91,8 @@ class Signup extends Component {
     };
 }
 
-const mapPropsToDispatch = (dispatch) => {
-    return bindActionCreators({ sendFlashMessage }, dispatch);
-};
-
-export default connect(null, mapPropsToDispatch)(Signup);  
+//const mapPropsToDispatch = (dispatch) => {
+//    return bindActionCreators({ sendFlashMessage }, dispatch);
+//};
+export default Signup;
+//export default connect(null, mapPropsToDispatch)(Signup);  

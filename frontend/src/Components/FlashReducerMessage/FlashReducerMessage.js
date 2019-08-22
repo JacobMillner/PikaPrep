@@ -1,4 +1,4 @@
-import {FLASH_MESSAGE} from '../Action/Action';
+import {FLASH_MESSAGE} from '../../Actions/Action';
 
 const initialState = {  
   message: null,

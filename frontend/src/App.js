@@ -1,7 +1,5 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
-import { Provider } from 'react-redux'
-import FlashMessage from './Components/FlashMessage/FlashMessage';   
 import MainNavBar from './Components/MainNavBar/MainNavBar';
 import Splash from './Components/Splash/Splash';
 import Users from './Components/Users/Users';
