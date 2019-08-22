@@ -8,7 +8,6 @@ export default class Login extends Component {
     this.state = {
       email: "",
       password: "",
-      username: ""
     };
   }
 
@@ -36,15 +35,6 @@ export default class Login extends Component {
               autoFocus
               type="email"
               value={this.state.email}
-              onChange={this.handleChange}
-            />
-          </div>
-          <div id="username">
-            <label>Username</label>
-            <input
-              autoFocus
-              type="username"
-              value={this.state.username}
               onChange={this.handleChange}
             />
           </div>

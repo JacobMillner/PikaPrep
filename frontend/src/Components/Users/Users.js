@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import API from '../../Util/api';
 
 class Users extends Component {
     constructor(props) {
@@ -12,7 +12,7 @@ class Users extends Component {
     }
 
     async componentDidMount() {
-        const users = (await axios.get('/users')).data;
+        const users = (await API.get('/users')).data;
         console.log(users)
         this.setState({
             users: users.data

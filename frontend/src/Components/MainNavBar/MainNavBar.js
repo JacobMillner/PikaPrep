@@ -10,7 +10,7 @@ function MainNavBar() {
                 <li className="logo"><Link to="/">Pika Prep</Link></li>
                 <li className="item"><Link to="/users/">Users</Link></li>
                 <li className="item button"><Link to="/login">Log In</Link></li>
-                <li className="item button secondary"><Link to="/">Sign Up</Link></li>
+                <li className="item button secondary"><Link to="/signup">Sign Up</Link></li>
             </ul>
         </nav>
     );

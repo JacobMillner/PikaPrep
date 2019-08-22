@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+import API from '../../Util/api';
 
 class User extends Component {
     constructor(props) {
@@ -11,7 +11,7 @@ class User extends Component {
 
     async componentDidMount() {
         const { match: { params } } = this.props;
-        const user = (await axios.get(`/user/${params.id}`)).data;
+        const user = (await API.get(`/user/${params.id}`)).data;
         this.setState({
             user: user.data
         });
