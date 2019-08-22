@@ -1,14 +1,25 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { createStore, compose } from 'redux';
 import MainNavBar from './Components/MainNavBar/MainNavBar';
 import Splash from './Components/Splash/Splash';
 import Users from './Components/Users/Users';
 import User from './Components/User/User';
 import Login from './Components/Login/Login';
 import Signup from './Components/Signup/Signup';
+import rootReducer from './Reducers/RootRecuder';
+
+const store = createStore(
+  rootReducer,
+  compose(
+    window.devToolsExtension ? window.devToolsExtensions() : f => f
+  )
+);
 
 function App() {
   return (
+    <Provider store={store}>
       <div>
         <MainNavBar />
         <Route exact path='/' component={Splash} />
@@ -17,6 +28,7 @@ function App() {
         <Route exact path='/users/' component={Users} />
         <Route exact path='/user/:id' component={User} />
       </div>
+    </Provider >
   );
 }
 

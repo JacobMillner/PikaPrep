@@ -1,7 +1,8 @@
 import {combineReducers} from 'redux';
+import flashMessages from './FlashMessages'
 
 const rootReducer = combineReducers({
-  //FlashReducer
+  flashMessages
 });
 
 export default rootReducer;

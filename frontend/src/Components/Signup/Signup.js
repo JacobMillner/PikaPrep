@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-//import { connect } from 'react-redux';
-//import { bindActionCreators } from 'redux';
-//import { sendFlashMessage } from '../../Actions/Action';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import API from '../../Util/api';
+import { addFlashMessage } from '../../Actions/FlashMessages';
 
 class Signup extends Component {
     constructor(props) {
@@ -37,7 +37,10 @@ class Signup extends Component {
         API.post('/user', this.getPostData())
             .then((res) => {
                 console.log(res);
-                //this.props.sendFlashMessage('You win!', 'alert-success');
+                this.props.addFlashMessage({
+                    type: 'success',
+                    text: 'Great job!'
+                });
                 this.props.history.push('/');
             });
     }
@@ -51,7 +54,6 @@ class Signup extends Component {
 
     render() {
         return (
-
             <div className="Signup">
                 <form onSubmit={this.handleSubmit}>
                     <div id="email">
@@ -91,8 +93,9 @@ class Signup extends Component {
     };
 }
 
-//const mapPropsToDispatch = (dispatch) => {
-//    return bindActionCreators({ sendFlashMessage }, dispatch);
-//};
-export default Signup;
-//export default connect(null, mapPropsToDispatch)(Signup);  
+Signup.propTypes = {
+    addFlashMessage: PropTypes.isRequired
+}
+
+export default connect(null, { addFlashMessage })(Signup);
+//export default Signup;
