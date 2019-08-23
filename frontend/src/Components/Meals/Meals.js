@@ -2,34 +2,34 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import API from '../../Util/api';
 
-class Users extends Component {
+class Meals extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            users: null,
+            meals: null,
         };
     }
 
     async componentDidMount() {
-        const users = (await API.get('/users')).data;
+        const meals = (await API.get('/meals')).data;
         this.setState({
-            users: users.data
+            meals: meals.data
         });
     }
 
     render() {
         return (
             <div className="flex-container">
-                {this.state.users === null && <p>Loading users...</p>}
+                {this.state.meals === null && <p>Loading meals...</p>}
                 {
-                    this.state.users && this.state.users.map(user => (
-                        <div key={user.id} className="eggplant">
-                            <Link to={`/user/${user.id}`} className="eggplant">
+                    this.state.meals && this.state.meal.map(meal => (
+                        <div key={meal.id} className="eggplant">
+                            <Link to={`/meals/${meal.id}`} className="eggplant">
                                 <div className="flex-card">
                                     <div className="card-body">
-                                        <img src={"https://www.gravatar.com/avatar/" + user.gravatar + "?d=robohash"} alt="profile pic" />
-                                        <h4 className="card-title">{user.username}</h4>
+                                        <img src={meal.photo_url} alt="yum!" />
+                                        <h4 className="card-title">{meal.name}</h4>
                                     </div>
                                 </div>
                             </Link>
@@ -41,4 +41,4 @@ class Users extends Component {
     }
 }
 
-export default Users;
+export default Meals;

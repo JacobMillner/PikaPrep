@@ -98,4 +98,3 @@ Signup.propTypes = {
 }
 
 export default connect(null, { addFlashMessage })(Signup);
-//export default Signup;

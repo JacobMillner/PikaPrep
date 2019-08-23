@@ -38,6 +38,7 @@ def make_app():
         (r"/", MainHandler),
         (r"/test", TestHandler),
         (r"/users", UsersHandler),
+        (r"/user", UserHandler),
         (r"/user/([^/]+)?", UserHandler),
         (r"/login", LoginHandler),
     ],

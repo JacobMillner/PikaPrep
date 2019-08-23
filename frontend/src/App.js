@@ -6,7 +6,7 @@ import MainNavBar from './Components/MainNavBar/MainNavBar';
 import FlashMessagesList from './Components/Flash/FlashMessagesList';
 import Splash from './Components/Splash/Splash';
 import Users from './Components/Users/Users';
-import User from './Components/User/User';
+import User from './Components/Users/User';
 import Login from './Components/Login/Login';
 import Signup from './Components/Signup/Signup';
 import rootReducer from './Reducers/RootRecuder';
