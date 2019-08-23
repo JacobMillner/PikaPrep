@@ -40,9 +40,7 @@ class UserHandler(SessionMixin, BaseHandler):
             if count == 0:
                 posted_user.data['password'] = hash_password(
                     posted_user.data['password'])
-                print("we made it here!!!!")
                 user = User(**posted_user.data)
-                print(user)
                 with self.make_session() as session:
                     session.add(user)
                     session.commit()

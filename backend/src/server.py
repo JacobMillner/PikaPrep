@@ -12,6 +12,7 @@ from entities.userMealEntries import UserMealEntry, UserMealEntrySchema
 from entities.mealEntries import MealEntry, MealEntrySchema
 from entities.entity import Base
 from handlers.users import UsersHandler
+from handlers.meals import MealsHandler
 from handlers.user import UserHandler
 from handlers.login import LoginHandler
 
@@ -36,11 +37,13 @@ def make_app():
     factory = make_session_factory(os.environ.get('DATABASE_URL'))
     return tornado.web.Application([
         (r"/", MainHandler),
-        (r"/test", TestHandler),
-        (r"/users", UsersHandler),
-        (r"/user", UserHandler),
+        (r"/test/?", TestHandler),
+        (r"/users/?", UsersHandler),
+        (r"/meals/([0-9]+)", MealsHandler),
+        (r"/meals/?", MealsHandler),
+        (r"/user/?", UserHandler),
         (r"/user/([^/]+)?", UserHandler),
-        (r"/login", LoginHandler),
+        (r"/login/?", LoginHandler),
     ],
     session_factory = factory)
 
