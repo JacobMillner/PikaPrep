@@ -41,7 +41,7 @@ class NewMeal extends Component {
     handleSubmit = event => {
         event.preventDefault();
 
-        API.post('/meal', this.getPostData())
+        API.post('/meals', this.getPostData())
             .then((res) => {
                 console.log(res);
                 this.props.addFlashMessage({
@@ -53,9 +53,9 @@ class NewMeal extends Component {
     }
 
     validateForm() {
-        return this.state.email.length > 0
-            && this.state.password.length > 0
-            && this.state.username.length > 0;
+        return this.state.name.length > 0
+            && this.state.recipe_url.length > 0
+            && this.state.photo_url.length > 0;
     }
 
 
@@ -74,9 +74,9 @@ class NewMeal extends Component {
                         />
                     </div>
                     <div id="description">
-                        <label>description</label>
+                        <label>Description</label>
                         <input
-                            id="Description"
+                            id="description"
                             type="text"
                             value={this.state.description}
                             onChange={this.handleChange}

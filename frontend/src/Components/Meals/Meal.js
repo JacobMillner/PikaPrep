@@ -25,7 +25,7 @@ class Meal extends Component {
                 <div className="row">
                     <div className="jumbotron col-12">
                         <h1 className="display-3">{meal.name}</h1>
-                        <img src={meal.photo_url} alt="yum!" />
+                        <img src={meal.photo_url} className="page-image" alt="yum!" />
                         <p className="lead">{meal.description}</p>
                         <p><a href={meal.recipe_url}>Recipe</a></p>
                         <p>Calories: {meal.calories}</p>

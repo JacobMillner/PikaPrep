@@ -41,6 +41,7 @@ def make_app():
         (r"/users/?", UsersHandler),
         (r"/meals/([0-9]+)", MealsHandler),
         (r"/meals/?", MealsHandler),
+        # TODO: combine user handlers?
         (r"/user/?", UserHandler),
         (r"/user/([^/]+)?", UserHandler),
         (r"/login/?", LoginHandler),

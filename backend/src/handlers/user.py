@@ -16,11 +16,11 @@ class UserHandler(SessionMixin, BaseHandler):
             user_object = await as_future((session.query(User).filter(User.id == uid).first))
             # transforming into JSON-serializable objects
             if user_object is not None:
-                schema = UserSchema()
+                schema = UserSchema(only=("id", "username", "email", "gravatar"))
                 user = schema.dump(user_object)
                 self.respond(user.data, "Success", 200)
             else:
-                self.respond(msg="No User with that username!")
+                self.respond(msg="No User with that id!")
 
     # create a user
     async def post(self):

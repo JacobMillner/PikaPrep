@@ -12,10 +12,10 @@ from .base import BaseHandler
 class MealsHandler(SessionMixin, BaseHandler):
     async def get(self, meal_id=None):
         if meal_id != None:
-            self.respond(msg="we did it!")
+            await self.getSingleMeal(meal_id)
         else:
             await self.getAllMeals()
-
+    # creat/edit meals
     async def post(self):
         try:
             json_data = json.loads(self.request.body.decode('utf-8'))
@@ -31,9 +31,9 @@ class MealsHandler(SessionMixin, BaseHandler):
             # todo - validate each field individually
             # make sure each meal is unique
             if count == 0:
-                user = Meal(**posted_meal.data)
+                meal = Meal(**posted_meal.data)
                 with self.make_session() as session:
-                    session.add(user)
+                    session.add(meal)
                     session.commit()
                 self.respond(msg="Success", code=200)
             else:
@@ -51,3 +51,14 @@ class MealsHandler(SessionMixin, BaseHandler):
                 self.respond(meals.data, "Success", 200)
             else:
                 self.respond(msg="No Meals!")
+
+    async def getSingleMeal(self, meal_id):
+        with self.make_session() as session:
+            meal_object = await as_future((session.query(Meal).filter(Meal.id == meal_id).first))
+            # transforming into JSON-serializable objects
+            if meal_object is not None:
+                schema = MealSchema()
+                user = schema.dump(meal_object)
+                self.respond(user.data, "Success", 200)
+            else:
+                self.respond(msg="No User with that id!")
