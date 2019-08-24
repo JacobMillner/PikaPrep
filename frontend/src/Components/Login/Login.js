@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "./Login.css";
+import ValidateInput from "../../Validators/login"
 
 export default class Login extends Component {
   constructor(props) {
@@ -8,6 +9,7 @@ export default class Login extends Component {
     this.state = {
       email: "",
       password: "",
+      errors: {},
     };
   }
 
@@ -23,9 +25,23 @@ export default class Login extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
+    if (this.isValid()) {
+
+    }
+  }
+
+  isValid() {
+    const { errors, isValid } = ValidateInput(this.state);
+
+    if (!isValid) {
+      this.setState({ errors })
+    }
+
+    return isValid;
   }
 
   render() {
+    const { errors, username, password } = this.state;
     return (
       <div className="Login">
         <form onSubmit={this.handleSubmit}>
