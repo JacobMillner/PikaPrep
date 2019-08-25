@@ -1,7 +1,7 @@
   
 import API, { SetAuthorizationToken } from '../Util/api'
 import jwtDecode from 'jwt-decode';
-import { SET_CURRENT_USER } from './types';
+import { SET_CURRENT_USER } from './Types';
 
 export function setCurrentUser(user) {
   return {
@@ -10,7 +10,7 @@ export function setCurrentUser(user) {
   };
 }
 
-export function logout() {
+export function logoutAction() {
   return dispatch => {
     localStorage.removeItem('jwtToken');
     SetAuthorizationToken(false);
@@ -18,7 +18,7 @@ export function logout() {
   }
 }
 
-export function login(data) {
+export function loginAction(data) {
   return dispatch => {
     return API.post('/login', data).then(res => {
       const token = res.data.token;

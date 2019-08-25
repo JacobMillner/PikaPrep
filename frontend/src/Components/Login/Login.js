@@ -1,15 +1,18 @@
 import React, { Component } from "react";
 import "./Login.css";
 import ValidateInput from "../../Validators/login"
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { loginAction } from '../../Actions/authActions'
 
-export default class Login extends Component {
+class Login extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       email: "",
       password: "",
-      errors: {},
+      errors: {}
     };
   }
 
@@ -43,30 +46,40 @@ export default class Login extends Component {
   render() {
     const { errors, username, password } = this.state;
     return (
-      <div className="Login">
-        <form onSubmit={this.handleSubmit}>
-          <div id="email">
-            <label>Email</label>
-            <input
-              autoFocus
-              type="email"
-              value={this.state.email}
-              onChange={this.handleChange}
-            />
-          </div>
-          <div id="password">
-            <label>Password</label>
-            <input
-              value={this.state.password}
-              onChange={this.handleChange}
-              type="password"
-            />
-          </div>
-          <button disabled={!this.validateForm()} type="submit">
-            Login
-          </button>
-        </form>
-      </div>
+      <form onSubmit={this.handleSubmit}>
+        <div id="email">
+          <label>Email</label>
+          <input
+            autoFocus
+            id="email"
+            type="email"
+            value={this.state.email}
+            onChange={this.handleChange}
+          />
+        </div>
+        <div id="password">
+          <label>Password</label>
+          <input
+            id="password"
+            value={this.state.password}
+            onChange={this.handleChange}
+            type="password"
+          />
+        </div>
+        <button disabled={!this.validateForm()} type="submit">
+          Login
+      </button>
+      </form>
     );
   }
 }
+
+Login.propTypes = {
+  login: PropTypes.func.isRequired
+}
+
+Login.contextTypes = {
+  router: PropTypes.object.isRequired
+}
+
+export default connect(null, { loginAction })(Login);
