@@ -26,10 +26,26 @@ class Login extends Component {
     });
   }
 
+  getPostData = () => {
+    return {
+        data:
+        {
+            user: {
+              email: this.state.email,
+              password: this.state.password
+            }
+        }
+    }
+}
+
   handleSubmit = event => {
     event.preventDefault();
     if (this.isValid()) {
-
+      this.setState({ errors: {} });
+      this.props.loginAction(this.getPostData()).then(
+        (res) => this.context.router.push('/'),
+        (err) => this.setState({ errors: err.response.data.errors })
+      );
     }
   }
 
@@ -75,7 +91,7 @@ class Login extends Component {
 }
 
 Login.propTypes = {
-  login: PropTypes.func.isRequired
+  loginAction: PropTypes.func.isRequired
 }
 
 Login.contextTypes = {

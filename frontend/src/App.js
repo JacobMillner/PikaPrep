@@ -1,7 +1,8 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { createStore, compose } from 'redux';
+import thunk from 'redux-thunk';
+import { createStore, compose, applyMiddleware } from 'redux';
 import MainNavBar from './Components/MainNavBar/MainNavBar';
 import FlashMessagesList from './Components/Flash/FlashMessagesList';
 import Splash from './Components/Splash/Splash';
@@ -17,6 +18,7 @@ import rootReducer from './Reducers/RootRecuder';
 const store = createStore(
   rootReducer,
   compose(
+    applyMiddleware(thunk),
     window.devToolsExtension ? window.devToolsExtensions() : f => f
   )
 );

@@ -21,6 +21,7 @@ export function logoutAction() {
 export function loginAction(data) {
   return dispatch => {
     return API.post('/login', data).then(res => {
+      console.log('test')
       const token = res.data.token;
       localStorage.setItem('jwtToken', token);
       SetAuthorizationToken(token);
