@@ -13,6 +13,7 @@ class LoginHandler(SessionMixin, BaseHandler):
     async def post(self):
         try:
             json_data = json.loads(self.request.body.decode('utf-8'))
+            print(json_data)
             data = json_data['data']
             json_user = data['user']
             posted_user = UserSchema().load(json_user)
@@ -28,7 +29,7 @@ class LoginHandler(SessionMixin, BaseHandler):
                         user_resp = UserSchema(only=('id', 'username', 'email'))\
                             .dump(user_object)
                         resp_dic = { 'user': user_resp.data, 'jwt': self.encoded.decode('ascii') }
-                        self.respond(resp_dic, 'Success', 500)
+                        self.respond(resp_dic, 'Success', 200)
                     else:
                         self.respond(msg='Password Incorrect.', code=400)
                 else:
