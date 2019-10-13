@@ -14,6 +14,7 @@ import NewMeal from './Components/Meals/NewMeal';
 import Meal from './Components/Meals/Meal';
 import Meals from './Components/Meals/Meals';
 import rootReducer from './Reducers/RootRecuder';
+import { Layout, Breadcrumb } from 'antd';
 
 const store = createStore(
   rootReducer,
@@ -24,19 +25,34 @@ const store = createStore(
 );
 
 function App() {
+
+  const { Header, Content, Footer} = Layout;
   return (
     <Provider store={store}>
       <div>
-        <MainNavBar />
-        <FlashMessagesList />
-        <Route exact path='/' component={Splash} />
-        <Route exact path='/login/' component={Login} />
-        <Route exact path='/signup/' component={Signup} />
-        <Route exact path='/users/' component={Users} />
-        <Route exact path='/user/:id' component={User} />
-        <Route exact path='/meals/' component={Meals} />
-        <Route exact path='/meals/:id(\d+)' component={Meal} />
-        <Route exact path='/meals/new' component={NewMeal} />
+        <Layout style={{ minHeight: '100vh' }}>
+          <MainNavBar />
+          <FlashMessagesList />
+          <Layout>
+          <Header style={{ background: '#fff', padding: 0 }} />
+          <Content style={{ margin: '0 16px' }}>
+            <Breadcrumb style={{ margin: '16px 0' }}>
+              <Breadcrumb.Item>User</Breadcrumb.Item>
+              <Breadcrumb.Item>Bill</Breadcrumb.Item>
+            </Breadcrumb>
+            <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>Bill is a cat.</div>
+          </Content>
+          <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
+          </Layout>
+          <Route exact path='/' component={Splash} />
+          <Route exact path='/login/' component={Login} />
+          <Route exact path='/signup/' component={Signup} />
+          <Route exact path='/users/' component={Users} />
+          <Route exact path='/user/:id' component={User} />
+          <Route exact path='/meals/' component={Meals} />
+          <Route exact path='/meals/:id(\d+)' component={Meal} />
+          <Route exact path='/meals/new' component={NewMeal} />
+        </Layout>
       </div>
     </Provider >
   );
