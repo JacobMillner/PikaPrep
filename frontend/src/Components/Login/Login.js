@@ -4,6 +4,7 @@ import ValidateInput from "../../Validators/login"
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { loginAction } from '../../Actions/authActions'
+import { Button, Input } from 'antd';
 
 class Login extends Component {
   constructor(props) {
@@ -65,7 +66,7 @@ class Login extends Component {
       <form onSubmit={this.handleSubmit}>
         <div id="email">
           <label>Email</label>
-          <input
+          <Input
             autoFocus
             id="email"
             type="email"
@@ -75,16 +76,16 @@ class Login extends Component {
         </div>
         <div id="password">
           <label>Password</label>
-          <input
+          <Input
             id="password"
             value={this.state.password}
             onChange={this.handleChange}
             type="password"
           />
         </div>
-        <button disabled={!this.validateForm()} type="submit">
+        <Button type="primary" disabled={!this.validateForm()}>
           Login
-      </button>
+        </Button>
       </form>
     );
   }

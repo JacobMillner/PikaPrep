@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import API from '../../Util/api';
+import { Card } from 'antd';
+
+const { Meta } = Card;
 
 class Users extends Component {
     constructor(props) {
         super(props);
-
         this.state = {
             users: null,
         };
@@ -24,16 +26,14 @@ class Users extends Component {
                 {this.state.users === null && <p>Loading users...</p>}
                 {
                     this.state.users && this.state.users.map(user => (
-                        <div key={user.id} className="eggplant">
-                            <Link to={`/user/${user.id}`} className="eggplant">
-                                <div className="flex-card">
-                                    <div className="card-body">
-                                        <img src={"https://www.gravatar.com/avatar/" + user.gravatar + "?d=robohash"} alt="profile pic" />
-                                        <h4 className="card-title">{user.username}</h4>
-                                    </div>
-                                </div>
-                            </Link>
-                        </div>
+                        <Link to={`/user/${user.id}`}>
+                            <Card
+                                hoverable
+                                style={{ width: 240 }}
+                                cover={<img src={"https://www.gravatar.com/avatar/" + user.gravatar + "?d=robohash"} alt="profile pic"  />}>
+                                <Meta title={user.username} />
+                            </Card>
+                        </Link>
                     ))
                 }
             </div>

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import API from '../../Util/api';
 import { addFlashMessage } from '../../Actions/FlashMessages';
+import { Button, Input } from 'antd';
 
 class Signup extends Component {
     constructor(props) {
@@ -58,7 +59,7 @@ class Signup extends Component {
                 <form onSubmit={this.handleSubmit}>
                     <div id="email">
                         <label>Email</label>
-                        <input
+                        <Input
                             autoFocus
                             id="email"
                             type="email"
@@ -68,7 +69,7 @@ class Signup extends Component {
                     </div>
                     <div id="username">
                         <label>Username</label>
-                        <input
+                        <Input
                             id="username"
                             type="username"
                             value={this.state.username}
@@ -77,16 +78,16 @@ class Signup extends Component {
                     </div>
                     <div id="password">
                         <label>Password</label>
-                        <input
+                        <Input
                             id="password"
                             value={this.state.password}
                             onChange={this.handleChange}
                             type="password"
                         />
                     </div>
-                    <button disabled={!this.validateForm()} type="submit">
-                        Signup
-                    </button>
+                    <Button type="primary" disabled={!this.validateForm()} type="submit">
+                        Login
+                    </Button>
                 </form>
             </div>
         )
