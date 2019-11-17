@@ -14,7 +14,7 @@ import NewMeal from './Components/Meals/NewMeal';
 import Meal from './Components/Meals/Meal';
 import Meals from './Components/Meals/Meals';
 import rootReducer from './Reducers/RootRecuder';
-import { Layout, Breadcrumb } from 'antd';
+import { Layout } from 'antd';
 
 const store = createStore(
   rootReducer,
@@ -35,7 +35,7 @@ function App() {
           <FlashMessagesList />
           <Layout>
           <Header style={{ background: '#fff', padding: 0 }} />
-          <Content style={{ margin: '0 16px' }}>
+          <Content style={{ margin: '0 0px' }}>
             <Route exact path='/' component={Splash} />
             <Route exact path='/login/' component={Login} />
             <Route exact path='/signup/' component={Signup} />

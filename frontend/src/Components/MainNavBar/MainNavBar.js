@@ -58,16 +58,6 @@ function MainNavBar() {
         </Menu.Item>
       </Menu>
     </Sider>
-
-    // <nav>
-    //     <ul className="menu">
-    //         <li className="logo"><Link to="/">Pika Prep</Link></li>
-    //         <li className="item"><Link to="/meals/">Meals</Link></li>
-    //         <li className="item"><Link to="/users/">Users</Link></li>
-    //         <li className="item button"><Link to="/login">Log In</Link></li>
-    //         <li className="item button secondary"><Link to="/signup">Sign Up</Link></li>
-    //     </ul>
-    // </nav>
   );
 }
 

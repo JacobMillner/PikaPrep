@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import API from '../../Util/api';
+import { Card, Row, Button } from 'antd';
+
+const { Meta } = Card;
 
 class Meals extends Component {
     constructor(props) {
@@ -20,25 +23,28 @@ class Meals extends Component {
 
     render() {
         return (
-            <div className="flex-container">
+            <div>
                 <Link to={'/meals/new'}>
-                    <button type="button">New Meal</button>
+                    <Button type="primary">New Meal</Button>
                 </Link>
-                {this.state.meals === null && <p>Loading meals...</p>}
-                {
-                    this.state.meals && this.state.meals.map(meal => (
-                        <div key={meal.id} className="eggplant">
-                            <Link to={`/meals/${meal.id}`} className="eggplant">
-                                <div className="flex-card">
-                                    <div className="card-body">
-                                        <img src={meal.photo_url} className="box-image" alt="yum!" />
-                                        <h4 className="card-title">{meal.name}</h4>
-                                    </div>
-                                </div>
-                            </Link>
-                        </div>
-                    ))
-                }
+                <Row type="flex" justify="space-between">
+                    {this.state.meals === null && <p>Loading meals...</p>}
+                    {
+                        this.state.meals && this.state.meals.map(meal => (
+                            <div key={meal.id}>
+                                <Link to={`/meals/${meal.id}`}>
+                                    <Card
+                                        size="small"
+                                        hoverable
+                                        style={{ width: 480 }}
+                                        cover={<img src={meal.photo_url} alt="meal" />}>
+                                        <Meta title={meal.name} />
+                                    </Card>
+                                </Link>
+                            </div>
+                        ))
+                    }
+                </Row>
             </div>
         )
     }

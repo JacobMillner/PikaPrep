@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import API from '../../Util/api';
-import { Card } from 'antd';
+import { Card, Row } from 'antd';
 
 const { Meta } = Card;
 
@@ -22,20 +22,23 @@ class Users extends Component {
 
     render() {
         return (
-            <div className="flex-container">
-                {this.state.users === null && <p>Loading users...</p>}
-                {
-                    this.state.users && this.state.users.map(user => (
-                        <Link to={`/user/${user.id}`}>
-                            <Card
-                                hoverable
-                                style={{ width: 240 }}
-                                cover={<img src={"https://www.gravatar.com/avatar/" + user.gravatar + "?d=robohash"} alt="profile pic"  />}>
-                                <Meta title={user.username} />
-                            </Card>
-                        </Link>
-                    ))
-                }
+            <div>
+                <Row type="flex" justify="space-between">
+                    {this.state.users === null && <p>Loading users...</p>}
+                    {
+                        this.state.users && this.state.users.map(user => (
+                            <Link to={`/user/${user.id}`}>
+                                <Card
+                                    size="small"
+                                    hoverable
+                                    style={{ width: 120 }}
+                                    cover={<img src={"https://www.gravatar.com/avatar/" + user.gravatar + "?d=robohash"} alt="profile"  />}>
+                                    <Meta title={user.username} />
+                                </Card>
+                            </Link>
+                        ))
+                    }
+                </Row>
             </div>
         )
     }
