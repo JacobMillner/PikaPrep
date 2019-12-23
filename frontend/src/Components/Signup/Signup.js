@@ -1,8 +1,5 @@
 import React, { Component } from "react";
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import API from '../../Util/api';
-import { addFlashMessage } from '../../Actions/FlashMessages';
 import { Button, Input } from 'antd';
 
 class Signup extends Component {
@@ -85,8 +82,8 @@ class Signup extends Component {
                             type="password"
                         />
                     </div>
-                    <Button type="primary" disabled={!this.validateForm()} type="submit">
-                        Login
+                    <Button disabled={!this.validateForm()} type="submit">
+                        Signup
                     </Button>
                 </form>
             </div>
@@ -94,8 +91,4 @@ class Signup extends Component {
     };
 }
 
-Signup.propTypes = {
-    addFlashMessage: PropTypes.func.isRequired 
-}
-
-export default connect(null, { addFlashMessage })(Signup);
+export default Signup;

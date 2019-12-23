@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import API from '../../Util/api';
-import { addFlashMessage } from '../../Actions/FlashMessages';
 
 class NewMeal extends Component {
     constructor(props) {
@@ -44,10 +43,6 @@ class NewMeal extends Component {
         API.post('/meals', this.getPostData())
             .then((res) => {
                 console.log(res);
-                this.props.addFlashMessage({
-                    type: 'success',
-                    text: 'Great job!'
-                });
                 this.props.history.push('/meals');
             });
     }
@@ -163,8 +158,4 @@ class NewMeal extends Component {
     };
 }
 
-NewMeal.propTypes = {
-    addFlashMessage: PropTypes.func.isRequired
-}
-
-export default connect(null, { addFlashMessage })(NewMeal);
+export default NewMeal;

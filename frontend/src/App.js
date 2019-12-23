@@ -4,7 +4,6 @@ import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import { createStore, compose, applyMiddleware } from 'redux';
 import MainNavBar from './Components/MainNavBar/MainNavBar';
-import FlashMessagesList from './Components/Flash/FlashMessagesList';
 import Splash from './Components/Splash/Splash';
 import Users from './Components/Users/Users';
 import User from './Components/Users/User';
@@ -13,11 +12,9 @@ import Signup from './Components/Signup/Signup';
 import NewMeal from './Components/Meals/NewMeal';
 import Meal from './Components/Meals/Meal';
 import Meals from './Components/Meals/Meals';
-import rootReducer from './Reducers/RootRecuder';
 import { Layout } from 'antd';
 
 const store = createStore(
-  rootReducer,
   compose(
     applyMiddleware(thunk),
     window.devToolsExtension ? window.devToolsExtensions() : f => f
@@ -32,7 +29,6 @@ function App() {
       <div>
         <Layout style={{ minHeight: '100vh' }}>
           <MainNavBar />
-          <FlashMessagesList />
           <Layout>
           <Header style={{ background: '#fff', padding: 0 }} />
           <Content style={{ margin: '0 0px' }}>
@@ -45,7 +41,7 @@ function App() {
             <Route exact path='/meals/:id(\d+)' component={Meal} />
             <Route exact path='/meals/new' component={NewMeal} />
           </Content>
-          <Footer style={{ textAlign: 'center' }}>Jacob Millner ©2019</Footer>
+          <Footer style={{ textAlign: 'center' }}>Jacob Millner ©2020</Footer>
           </Layout>
         </Layout>
       </div>

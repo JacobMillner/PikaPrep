@@ -1,10 +1,8 @@
 import React, { Component } from "react";
 import "./Login.css";
 import ValidateInput from "../../Validators/login"
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { loginAction } from '../../Actions/authActions'
-import { Button, Input } from 'antd';
+import API, { SetAuthorizationToken } from '../../Util/api'
+import { Button, Input, Form, Icon } from 'antd';
 
 class Login extends Component {
   constructor(props) {
@@ -29,74 +27,63 @@ class Login extends Component {
 
   getPostData = () => {
     return {
-        data:
-        {
-            user: {
-              email: this.state.email,
-              password: this.state.password
-            }
+      data:
+      {
+        user: {
+          email: this.state.email,
+          password: this.state.password
         }
+      }
     }
-}
+  }
 
   handleSubmit = event => {
     event.preventDefault();
-    if (this.isValid()) {
-      this.setState({ errors: {} });
-      this.props.loginAction(this.getPostData()).then(
-        (res) => this.context.router.push('/'),
-        (err) => this.setState({ errors: err.response.data.errors })
-      );
-    }
-  }
-
-  isValid() {
-    const { errors, isValid } = ValidateInput(this.state);
-
-    if (!isValid) {
-      this.setState({ errors })
-    }
-
-    return isValid;
+    console.log("starting submit");
+    console.log(this.getPostData());
+    this.setState({ errors: {} });
+    API.post('/login', this.getPostData()).then(res => {
+      console.log(res);
+      const token = res.data.token;
+      const userId = res.data.userId;
+      const userName = res.data.userName;
+      const email = res.data.email;
+      localStorage.setItem('jwtToken', token);
+      localStorage.setItem('userId', userId);
+      localStorage.setItem('userName', userName);
+      localStorage.setItem('email', email);
+      // TODO: hash user details before storing
+      SetAuthorizationToken(token);
+      //dispatch(setCurrentUser(jwtDecode(token)));
+    });
   }
 
   render() {
-    const { errors, username, password } = this.state;
     return (
-      <form onSubmit={this.handleSubmit}>
-        <div id="email">
-          <label>Email</label>
+      <Form onSubmit={this.handleSubmit}>
+        <Form.Item>
           <Input
-            autoFocus
-            id="email"
-            type="email"
-            value={this.state.email}
+            prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
+            placeholder="Username"
             onChange={this.handleChange}
           />
-        </div>
-        <div id="password">
-          <label>Password</label>
+        </Form.Item>
+        <Form.Item>
           <Input
-            id="password"
-            value={this.state.password}
-            onChange={this.handleChange}
+            prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
             type="password"
+            placeholder="Password"
+            onChange={this.handleChange}
           />
-        </div>
-        <Button type="primary" disabled={!this.validateForm()}>
-          Login
-        </Button>
-      </form>
+        </Form.Item>
+        <Form.Item>
+          <Button type="primary" htmlType="submit">
+            Log in
+          </Button>
+        </Form.Item>
+      </Form>
     );
   }
 }
 
-Login.propTypes = {
-  loginAction: PropTypes.func.isRequired
-}
-
-Login.contextTypes = {
-  router: PropTypes.object.isRequired
-}
-
-export default connect(null, { loginAction })(Login);
+export default Login;
