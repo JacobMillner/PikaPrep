@@ -8,6 +8,7 @@ import Splash from './Components/Splash/Splash';
 import Users from './Components/Users/Users';
 import User from './Components/Users/User';
 import Login from './Components/Login/Login';
+import Logout from './Components/Logout/Logout';
 import Signup from './Components/Signup/Signup';
 import NewMeal from './Components/Meals/NewMeal';
 import Meal from './Components/Meals/Meal';
@@ -34,6 +35,7 @@ function App() {
           <Content style={{ margin: '0 0px' }}>
             <Route exact path='/' component={Splash} />
             <Route exact path='/login/' component={Login} />
+            <Route exact path='/logout/' component={Logout} />
             <Route exact path='/signup/' component={Signup} />
             <Route exact path='/users/' component={Users} />
             <Route exact path='/user/:id' component={User} />

@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import API from '../../Util/api';
+import { authService } from '../../Services/AuthService';
+import { Button, Input, Form, Icon } from 'antd';
 
 class NewMeal extends Component {
     constructor(props) {
@@ -32,7 +34,8 @@ class NewMeal extends Component {
         return {
             data:
             {
-                meal: this.state
+                meal: this.state,
+                user: authService.getCurrentUser()
             }
         }
     }
@@ -40,11 +43,12 @@ class NewMeal extends Component {
     handleSubmit = event => {
         event.preventDefault();
 
-        API.post('/meals', this.getPostData())
-            .then((res) => {
-                console.log(res);
-                this.props.history.push('/meals');
-            });
+        API.post('/meals', this.getPostData(), {
+            headers: { "Authorization": authService.getJwt() }
+        }).then((res) => {
+            console.log(res);
+            this.props.history.push('/meals');
+        });
     }
 
     validateForm() {
@@ -56,104 +60,107 @@ class NewMeal extends Component {
 
     render() {
         return (
-            <div className="NewMeal">
-                <form onSubmit={this.handleSubmit}>
-                    <div id="name">
-                        <label>Name</label>
-                        <input
-                            autoFocus
-                            id="name"
-                            type="text"
-                            value={this.state.name}
-                            onChange={this.handleChange}
-                        />
-                    </div>
-                    <div id="description">
-                        <label>Description</label>
-                        <input
-                            id="description"
-                            type="text"
-                            value={this.state.description}
-                            onChange={this.handleChange}
-                        />
-                    </div>
-                    <div id="recipe_url">
-                        <label>Recipe URL</label>
-                        <input
-                            id="recipe_url"
-                            value={this.state.recipe_url}
-                            onChange={this.handleChange}
-                            type="text"
-                        />
-                    </div>
-                    <div id="photo_url">
-                        <label>Photo URL</label>
-                        <input
-                            id="photo_url"
-                            value={this.state.photo_url}
-                            onChange={this.handleChange}
-                            type="text"
-                        />
-                    </div>
-                    <div id="calories">
-                        <label>Calories</label>
-                        <input
-                            id="calories"
-                            value={this.state.calories}
-                            onChange={this.handleChange}
-                            type="number"
-                        />
-                    </div>
-                    <div id="carbs">
-                        <label>Carbs</label>
-                        <input
-                            id="carbs"
-                            value={this.state.carbs}
-                            onChange={this.handleChange}
-                            type="number"
-                        />
-                    </div>
-                    <div id="fat">
-                        <label>Fat</label>
-                        <input
-                            id="fat"
-                            value={this.state.fat}
-                            onChange={this.handleChange}
-                            type="number"
-                        />
-                    </div>
-                    <div id="protein">
-                        <label>Protein</label>
-                        <input
-                            id="protein"
-                            value={this.state.protein}
-                            onChange={this.handleChange}
-                            type="number"
-                        />
-                    </div>
-                    <div id="servings">
-                        <label>Servings</label>
-                        <input
-                            id="servings"
-                            value={this.state.servings}
-                            onChange={this.handleChange}
-                            type="number"
-                        />
-                    </div>
-                    <div id="cooking_time">
-                        <label>Cooking Time (min)</label>
-                        <input
-                            id="cooking_time"
-                            value={this.state.cooking_time}
-                            onChange={this.handleChange}
-                            type="number"
-                        />
-                    </div>
-                    <button disabled={!this.validateForm()} type="submit">
-                        Create Meal
-                    </button>
-                </form>
-            </div>
+            <Form onSubmit={this.handleSubmit}>
+                <Form.Item>
+                    <Input
+                        prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                        placeholder="Name"
+                        id="name"
+                        onChange={this.handleChange}
+                    />
+                </Form.Item>
+                <Form.Item>
+                    <Input
+                        prefix={<Icon type="read" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                        id="description"
+                        placeholder="Description"
+                        onChange={this.handleChange}
+                    />
+                </Form.Item>
+                <Form.Item>
+                    <Input
+                        prefix={<Icon type="link" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                        type="recipe_url"
+                        placeholder="Recipe Url"
+                        onChange={this.handleChange}
+                    />
+                </Form.Item>
+                <Form.Item>
+                    <Input
+                        prefix={<Icon type="link" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                        id="recipe_url"
+                        placeholder="Recipe Url"
+                        onChange={this.handleChange}
+                    />
+                </Form.Item>
+                <Form.Item>
+                    <Input
+                        prefix={<Icon type="picture" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                        id="photo_url"
+                        placeholder="Picture Url"
+                        onChange={this.handleChange}
+                    />
+                </Form.Item>
+                <Form.Item>
+                    <Input
+                        prefix={<Icon type="gold" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                        id="calories"
+                        placeholder="Calories"
+                        type="number"
+                        onChange={this.handleChange}
+                    />
+                </Form.Item>
+                <Form.Item>
+                    <Input
+                        prefix={<Icon type="coffee" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                        id="carbs"
+                        placeholder="Carbs"
+                        type="number"
+                        onChange={this.handleChange}
+                    />
+                </Form.Item>
+                <Form.Item>
+                    <Input
+                        prefix={<Icon type="smile" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                        id="fat"
+                        placeholder="Fat"
+                        type="number"
+                        onChange={this.handleChange}
+                    />
+                </Form.Item>
+                <Form.Item>
+                    <Input
+                        prefix={<Icon type="rocket" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                        id="protein"
+                        placeholder="Protein"
+                        type="number"
+                        onChange={this.handleChange}
+                    />
+                </Form.Item>
+                <Form.Item>
+                    <Input
+                        prefix={<Icon type="number" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                        id="servings"
+                        placeholder="Servings"
+                        type="number"
+                        onChange={this.handleChange}
+                    />
+                </Form.Item>
+                <Form.Item>
+                    <Input
+                        prefix={<Icon type="clock-circle" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                        id="cooking_time"
+                        placeholder="Cooking Time"
+                        type="number"
+                        onChange={this.handleChange}
+                    />
+                </Form.Item>
+                <Form.Item>
+                    <Button type="primary" htmlType="submit">
+                        New Meal
+                    </Button>
+                </Form.Item>
+            </Form>
         )
     };
 }

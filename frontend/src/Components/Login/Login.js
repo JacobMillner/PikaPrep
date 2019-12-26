@@ -2,11 +2,14 @@ import React, { Component } from "react";
 import "./Login.css";
 import ValidateInput from "../../Validators/login"
 import API, { SetAuthorizationToken } from '../../Util/api'
-import { Button, Input, Form, Icon } from 'antd';
+import { Button, Input, Form, Icon, message } from 'antd';
 
 class Login extends Component {
   constructor(props) {
     super(props);
+
+    // redirect to home if already logged in
+    // TODO
 
     this.state = {
       email: "",
@@ -43,18 +46,17 @@ class Login extends Component {
     console.log(this.getPostData());
     this.setState({ errors: {} });
     API.post('/login', this.getPostData()).then(res => {
-      console.log(res);
-      const token = res.data.token;
-      const userId = res.data.userId;
-      const userName = res.data.userName;
-      const email = res.data.email;
-      localStorage.setItem('jwtToken', token);
-      localStorage.setItem('userId', userId);
-      localStorage.setItem('userName', userName);
-      localStorage.setItem('email', email);
-      // TODO: hash user details before storing
-      SetAuthorizationToken(token);
-      //dispatch(setCurrentUser(jwtDecode(token)));
+      console.log("Login Response:")
+      console.log(res.data);
+      const token = res.data.data.jwt;
+      const user = res.data.data.user;
+      localStorage.setItem('jwt', token);
+      localStorage.setItem('user', JSON.stringify(user));
+      // TODO: hash user details before storing?
+      message.success("Login successful!");
+      this.props.history.push('/');
+    }).catch(res => {
+      message.error("Username or password incorrect.");
     });
   }
 
@@ -63,8 +65,9 @@ class Login extends Component {
       <Form onSubmit={this.handleSubmit}>
         <Form.Item>
           <Input
-            prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-            placeholder="Username"
+            prefix={<Icon type="mail" style={{ color: 'rgba(0,0,0,.25)' }} />}
+            placeholder="Email"
+            id="email"
             onChange={this.handleChange}
           />
         </Form.Item>
@@ -73,6 +76,7 @@ class Login extends Component {
             prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
             type="password"
             placeholder="Password"
+            id="password"
             onChange={this.handleChange}
           />
         </Form.Item>

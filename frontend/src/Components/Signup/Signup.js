@@ -35,10 +35,6 @@ class Signup extends Component {
         API.post('/user', this.getPostData())
             .then((res) => {
                 console.log(res);
-                this.props.addFlashMessage({
-                    type: 'success',
-                    text: 'Great job!'
-                });
                 this.props.history.push('/');
             });
     }
