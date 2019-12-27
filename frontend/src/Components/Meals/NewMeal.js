@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import API from '../../Util/api';
 import { authService } from '../../Services/AuthService';
 import { Button, Input, Form, Icon } from 'antd';
+import { SetAuthorizationToken } from "../../Util/api";
 
 class NewMeal extends Component {
     constructor(props) {
@@ -42,9 +43,12 @@ class NewMeal extends Component {
 
     handleSubmit = event => {
         event.preventDefault();
-
+        console.log("Jwt: ", authService.getJwt())
+        let tokenStr = authService.getJwt()
         API.post('/meals', this.getPostData(), {
-            headers: { "Authorization": authService.getJwt() }
+            headers: {
+                "Authorization": `Bearer ${tokenStr}`
+            }
         }).then((res) => {
             console.log(res);
             this.props.history.push('/meals');
@@ -74,14 +78,6 @@ class NewMeal extends Component {
                         prefix={<Icon type="read" style={{ color: 'rgba(0,0,0,.25)' }} />}
                         id="description"
                         placeholder="Description"
-                        onChange={this.handleChange}
-                    />
-                </Form.Item>
-                <Form.Item>
-                    <Input
-                        prefix={<Icon type="link" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                        type="recipe_url"
-                        placeholder="Recipe Url"
                         onChange={this.handleChange}
                     />
                 </Form.Item>

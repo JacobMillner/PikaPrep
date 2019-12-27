@@ -5,6 +5,7 @@ import ptvsd
 from auth import login_required
 from sqlalchemy import create_engine
 from tornado_sqlalchemy import SessionMixin, as_future, make_session_factory
+import tornado.autoreload
 from entities.user import User, UserSchema
 from entities.meal import Meal, MealSchema
 from entities.userMeals import UserMeal, UserMealSchema
@@ -51,7 +52,14 @@ def make_app():
 if __name__ == "__main__":
     app = make_app()
     app.listen(8888)
-    ptvsd.enable_attach(address=('0.0.0.0', 8889))
+
+    # auto reload on file changes
+    tornado.autoreload.start()
+    for dir, _, files in os.walk('static'):
+        [tornado.autoreload.watch(dir + '/' + f) for f in files if not f.startswith('.')]
+
+    # TODO: Get remote debugging working.
+    #ptvsd.enable_attach(address=('0.0.0.0', 8889))
     #ptvsd.wait_for_attach()
     #print('ptvsd debugging is started')
     tornado.ioloop.IOLoop.current().start()

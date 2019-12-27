@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import API from '../../Util/api';
+import { authService } from '../../Services/AuthService'
 import { Card, Row, Button } from 'antd';
 
 const { Meta } = Card;
@@ -22,11 +23,16 @@ class Meals extends Component {
     }
 
     render() {
+
+        const loggedIn = authService.isLoggedIn();
+
         return (
             <div>
-                <Link to={'/meals/new'}>
-                    <Button type="primary">New Meal</Button>
-                </Link>
+                {loggedIn &&
+                    <Link to={'/meals/new'}>
+                        <Button type="primary">New Meal</Button>
+                    </Link>
+                }
                 <Row type="flex" justify="space-between">
                     {this.state.meals === null && <p>Loading meals...</p>}
                     {

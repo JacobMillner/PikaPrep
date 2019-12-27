@@ -6,6 +6,8 @@ import os
 from sqlalchemy import or_
 from tornado_sqlalchemy import SessionMixin, as_future
 from entities.meal import Meal, MealSchema
+from entities.user import User, UserSchema
+from auth import has_auth
 from .base import BaseHandler
 
 
@@ -15,13 +17,21 @@ class MealsHandler(SessionMixin, BaseHandler):
             await self.getSingleMeal(meal_id)
         else:
             await self.getAllMeals()
-    # creat/edit meals
+
+    # create/edit meals
     async def post(self):
+        if not has_auth(self.request):
+            self.respond(data=None, msg="User not authorized!", code=403)
+            return
         try:
             json_data = json.loads(self.request.body.decode('utf-8'))
             data = json_data['data']
             json_meal = data['meal']
+            json_user = data['user']
+            print(json_user)
             posted_meal = MealSchema().load(json_meal)
+            posted_user = UserSchema().load(json_user)
+            print("We made it to posted user")
             # validate, save
             with self.make_session() as session:
                 count = await as_future(session.query(Meal).
@@ -32,11 +42,18 @@ class MealsHandler(SessionMixin, BaseHandler):
             # make sure each meal is unique
             if count == 0:
                 meal = Meal(**posted_meal.data)
+                print("going to create user obj")
+                user = User(**posted_user.data)
+                print("user obj created")
+                meal.create_by = user.id
                 with self.make_session() as session:
                     session.add(meal)
                     session.commit()
                 self.respond(msg="Success", code=200)
             else:
+                print("meal already exists!")
+                print("Count")
+                print(count)
                 self.respond(data=None, msg="Meal already exists!", code=200)
         except KeyError as e:
             self.respond(msg=str(e), code=500)

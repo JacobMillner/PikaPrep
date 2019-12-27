@@ -10,6 +10,25 @@ options = {
     'verify_aud': False
 }
 
+def has_auth(request):
+    auth = request.headers.get('Authorization')
+    print(auth)
+    if auth is None:
+        print("Not authorized!")
+        return False
+    parts = auth.split()
+    token = parts[1]
+    print("token:")
+    print(token)
+    try:
+        jwt.decode(token, secret_key, options=options)
+    except Exception as e:
+        print("Not authorized:")
+        print(str(e))
+        return False
+    print("Authorization granted.")
+    return True
+
 def login_required(handler_class):
     ''' Handle Tornado JWT Auth '''
     def wrap_execute(handler_execute):

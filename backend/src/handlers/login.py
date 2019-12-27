@@ -24,7 +24,7 @@ class LoginHandler(SessionMixin, BaseHandler):
                     filter(User.email == posted_user.data['email']).first)
                 if user_object is not None:
                     if verify_password(user_object.password, posted_user.data['password']):
-                        self.encoded = jwt.encode({'iat': str(datetime.now())},\
+                        self.encoded = jwt.encode({'iat': datetime.now().timestamp()},\
                              os.environ.get('JWT_SECRET'),\
                                   algorithm='HS256')
                         user_resp = UserSchema(only=('id', 'username', 'email'))\
