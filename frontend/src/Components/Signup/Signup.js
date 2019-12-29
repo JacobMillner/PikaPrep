@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import API from '../../Util/api';
-import { Button, Input } from 'antd';
+import { Button, Input, Form, Icon, message } from 'antd';
 
 class Signup extends Component {
     constructor(props) {
@@ -35,6 +35,7 @@ class Signup extends Component {
         API.post('/user', this.getPostData())
             .then((res) => {
                 console.log(res);
+                message.success("User created!");
                 this.props.history.push('/');
             });
     }
@@ -48,41 +49,38 @@ class Signup extends Component {
 
     render() {
         return (
-            <div className="Signup">
-                <form onSubmit={this.handleSubmit}>
-                    <div id="email">
-                        <label>Email</label>
-                        <Input
-                            autoFocus
-                            id="email"
-                            type="email"
-                            value={this.state.email}
-                            onChange={this.handleChange}
-                        />
-                    </div>
-                    <div id="username">
-                        <label>Username</label>
-                        <Input
-                            id="username"
-                            type="username"
-                            value={this.state.username}
-                            onChange={this.handleChange}
-                        />
-                    </div>
-                    <div id="password">
-                        <label>Password</label>
-                        <Input
-                            id="password"
-                            value={this.state.password}
-                            onChange={this.handleChange}
-                            type="password"
-                        />
-                    </div>
-                    <Button disabled={!this.validateForm()} type="submit">
+            <Form onSubmit={this.handleSubmit}>
+                <Form.Item>
+                    <Input
+                        prefix={<Icon type="mail" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                        placeholder="Email"
+                        id="email"
+                        onChange={this.handleChange}
+                    />
+                </Form.Item>
+                <Form.Item>
+                    <Input
+                        prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                        placeholder="Username"
+                        id="username"
+                        onChange={this.handleChange}
+                    />
+                </Form.Item>
+                <Form.Item>
+                    <Input
+                        prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                        type="password"
+                        placeholder="Password"
+                        id="password"
+                        onChange={this.handleChange}
+                    />
+                </Form.Item>
+                <Form.Item>
+                    <Button type="primary" htmlType="submit">
                         Signup
                     </Button>
-                </form>
-            </div>
+                </Form.Item>
+            </Form>
         )
     };
 }
