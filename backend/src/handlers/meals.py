@@ -30,8 +30,6 @@ class MealsHandler(SessionMixin, BaseHandler):
             json_user = data['user']
             print(json_user)
             posted_meal = MealSchema().load(json_meal)
-            posted_user = UserSchema().load(json_user)
-            print("We made it to posted user")
             # validate, save
             with self.make_session() as session:
                 count = await as_future(session.query(Meal).
@@ -42,10 +40,9 @@ class MealsHandler(SessionMixin, BaseHandler):
             # make sure each meal is unique
             if count == 0:
                 meal = Meal(**posted_meal.data)
-                print("going to create user obj")
-                user = User(**posted_user.data)
-                print("user obj created")
-                meal.create_by = user.id
+                print("User ID: ")
+                print(json_user['id'])
+                meal.create_by = json_user['id']
                 with self.make_session() as session:
                     session.add(meal)
                     session.commit()

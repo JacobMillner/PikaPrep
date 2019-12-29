@@ -12,14 +12,11 @@ options = {
 
 def has_auth(request):
     auth = request.headers.get('Authorization')
-    print(auth)
     if auth is None:
         print("Not authorized!")
         return False
     parts = auth.split()
     token = parts[1]
-    print("token:")
-    print(token)
     try:
         jwt.decode(token, secret_key, options=options)
     except Exception as e:
