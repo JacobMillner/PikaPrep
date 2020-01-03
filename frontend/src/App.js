@@ -11,6 +11,7 @@ import Login from './Components/Login/Login';
 import Logout from './Components/Logout/Logout';
 import Signup from './Components/Signup/Signup';
 import NewMeal from './Components/Meals/NewMeal';
+import Calendar from './Components/Calendar/Calendar';
 import Meal from './Components/Meals/Meal';
 import Meals from './Components/Meals/Meals';
 import { Layout } from 'antd';
@@ -42,6 +43,7 @@ function App() {
             <Route exact path='/meals/' component={Meals} />
             <Route exact path='/meals/:id(\d+)' component={Meal} />
             <Route exact path='/meals/new' component={NewMeal} />
+            <Route exact path='/calendar/' component={Calendar} />
           </Content>
           <Footer style={{ textAlign: 'center' }}>Jacob Millner ©2020</Footer>
           </Layout>

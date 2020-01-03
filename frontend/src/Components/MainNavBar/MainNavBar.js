@@ -59,6 +59,14 @@ function MainNavBar() {
         </Menu.Item>
         {loggedIn &&
           <Menu.Item key="6">
+            <Link to="/calendar">
+              <Icon type="calendar" />
+              <span>Calendar</span>
+            </Link>
+          </Menu.Item>
+        }
+        {loggedIn &&
+          <Menu.Item key="7">
             <Link to="/logout">
               <Icon type="logout" />
               <span>logout</span>
