@@ -13,8 +13,7 @@ services:
       - POSTGRES_USER=myuser
       - POSTGRES_PASSWORD=mypassword
     volumes:
-      - postgresql:/var/lib/postgresql/data:nocopy
-      - postgresql_data:/var/lib/postgresql/data:nocopy
+      - postgresql:/var/lib/pika-postgresql/data
 
   backend:
     container_name: backend
@@ -43,5 +42,4 @@ services:
       - NODE_ENV=development
 
 volumes:
-  postgresql:
-  postgresql_data:
+  postgresql: {}

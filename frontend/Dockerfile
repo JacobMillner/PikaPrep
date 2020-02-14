@@ -1,8 +1,8 @@
-FROM node:11.15.0
+FROM node:11.15
+
+RUN apt-get update
 
 WORKDIR /var/www/frontend
-
-ENV PATH /var/www/frontend/node_modules/.bin:$PATH
 
 COPY . .
 
