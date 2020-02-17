@@ -1,23 +1,18 @@
-import React, { Component } from 'react';
-import { message } from 'antd';
-import { authService } from '../../Services/AuthService';
+import React, { Component, useContext, useEffect } from "react";
+import { message } from "antd";
+import { authService } from "../../Services/AuthService";
+import { LoggedInContext } from "../../Context/is-logged-in-context";
 
-class Logout extends Component {
-    constructor(props) {
-        super(props);
-        // just logout the user and push back to home
-        authService.logout();
-        message.success("Logout Successful!");
-        this.props.history.push('/');
-        // TODO: fix this hack
-        window.location.reload(false);
-    }
+const Logout = () => {
+  const [loggedIn, setLoggedIn] = useContext(LoggedInContext);
+  // just logout the user and push back to home
+  useEffect(() => {
+    authService.logout();
+    setLoggedIn(false);
+    message.success("Logout Successful!");
+  }, []);
 
-    render() {
-        return (
-            <p>goodbye!</p>
-        )
-    };
-}
+  return <div>goodbye!</div>;
+};
 
 export default Logout;

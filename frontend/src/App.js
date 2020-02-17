@@ -16,6 +16,7 @@ import Meal from "./Components/Meals/Meal";
 import Meals from "./Components/Meals/Meals";
 import PlanMeal from "./Components/PlanMeal/PlanMeal";
 import { Layout } from "antd";
+import { LoggedInProvider } from "./Context/is-logged-in-context";
 
 const store = createStore(
   compose(
@@ -28,28 +29,32 @@ function App() {
   const { Header, Content, Footer } = Layout;
   return (
     <Provider store={store}>
-      <div>
-        <Layout style={{ minHeight: "100vh" }}>
-          <MainNavBar />
-          <Layout>
-            <Header style={{ background: "#fff", padding: 0 }} />
-            <Content style={{ margin: "0 0px" }}>
-              <Route exact path="/" component={Splash} />
-              <Route exact path="/login/" component={Login} />
-              <Route exact path="/logout/" component={Logout} />
-              <Route exact path="/signup/" component={Signup} />
-              <Route exact path="/users/" component={Users} />
-              <Route exact path="/user/:id" component={User} />
-              <Route exact path="/meals/" component={Meals} />
-              <Route exact path="/meals/:id(\d+)" component={Meal} />
-              <Route exact path="/planmeal/:id(\d+)" component={PlanMeal} />
-              <Route exact path="/meals/new" component={NewMeal} />
-              <Route exact path="/calendar/" component={PrepCalendar} />
-            </Content>
-            <Footer style={{ textAlign: "center" }}>Jacob Millner ©2020</Footer>
+      <LoggedInProvider>
+        <div>
+          <Layout style={{ minHeight: "100vh" }}>
+            <MainNavBar />
+            <Layout>
+              <Header style={{ background: "#fff", padding: 0 }} />
+              <Content style={{ margin: "0 0px" }}>
+                <Route exact path="/" component={Splash} />
+                <Route exact path="/login/" component={Login} />
+                <Route exact path="/logout/" component={Logout} />
+                <Route exact path="/signup/" component={Signup} />
+                <Route exact path="/users/" component={Users} />
+                <Route exact path="/user/:id" component={User} />
+                <Route exact path="/meals/" component={Meals} />
+                <Route exact path="/meals/:id(\d+)" component={Meal} />
+                <Route exact path="/planmeal/:id(\d+)" component={PlanMeal} />
+                <Route exact path="/meals/new" component={NewMeal} />
+                <Route exact path="/calendar/" component={PrepCalendar} />
+              </Content>
+              <Footer style={{ textAlign: "center" }}>
+                Jacob Millner ©2020
+              </Footer>
+            </Layout>
           </Layout>
-        </Layout>
-      </div>
+        </div>
+      </LoggedInProvider>
     </Provider>
   );
 }
