@@ -1,10 +1,7 @@
 import React, { Component } from "react";
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import API from '../../Util/api';
 import { authService } from '../../Services/AuthService';
 import { Button, Input, Form, Icon } from 'antd';
-import { SetAuthorizationToken } from "../../Util/api";
 
 class NewMeal extends Component {
     constructor(props) {
