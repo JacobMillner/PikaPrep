@@ -1,57 +1,47 @@
-import React, { Component, useContext, useEffect } from "react";
+import React, { Component, useContext, useState } from "react";
 import "./Login.css";
 import ValidateInput from "../../Validators/login";
 import API, { SetAuthorizationToken } from "../../Util/api";
 import { Button, Input, Form, Icon, message } from "antd";
 import { LoggedInContext } from "../../Context/is-logged-in-context";
 
-const FlipLogin = () => {
+const FlipLogin = () => {};
+
+const Login = props => {
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
+  const [errors, setErrors] = useState();
   const [loggedIn, setLoggedIn] = useContext(LoggedInContext);
-  // just logout the user and push back to home
-  setLoggedIn(!loggedIn);
-};
 
-class Login extends Component {
-  constructor(props) {
-    super(props);
-
-    // redirect to home if already logged in
-    // TODO
-
-    this.state = {
-      email: "",
-      password: "",
-      errors: {}
-    };
-  }
-
-  validateForm() {
-    return this.state.email.length > 0 && this.state.password.length > 0;
-  }
-
-  handleChange = event => {
-    this.setState({
-      [event.target.id]: event.target.value
-    });
+  const validateForm = () => {
+    return email.length > 0 && password.length > 0;
   };
 
-  getPostData = () => {
+  const updateEmail = event => {
+    console.log(event.target.value);
+    setEmail(event.target.value);
+  };
+
+  const updatePassword = event => {
+    setPassword(event.target.value);
+  };
+
+  const getPostData = () => {
     return {
       data: {
         user: {
-          email: this.state.email,
-          password: this.state.password
+          email: email,
+          password: password
         }
       }
     };
   };
 
-  handleSubmit = event => {
+  const handleSubmit = async event => {
     event.preventDefault();
     console.log("starting submit");
-    console.log(this.getPostData());
-    this.setState({ errors: {} });
-    API.post("/login", this.getPostData())
+    console.log(getPostData());
+    API.post("/login", getPostData())
       .then(res => {
         console.log("Login Response:");
         console.log(res.data);
@@ -62,41 +52,42 @@ class Login extends Component {
         // TODO: hash user details before storing?
         message.success("Login successful!");
         FlipLogin();
-        this.props.history.push("/");
+        // TODO: find a way to navigate from functional component
+        //this.props.history.push("/");
+
+        // just logout the user and push back to home
+        setLoggedIn(!loggedIn);
       })
       .catch(res => {
         message.error("Username or password incorrect." + res);
       });
   };
-
-  render() {
-    return (
-      <Form onSubmit={this.handleSubmit}>
-        <Form.Item>
-          <Input
-            prefix={<Icon type="mail" style={{ color: "rgba(0,0,0,.25)" }} />}
-            placeholder="Email"
-            id="email"
-            onChange={this.handleChange}
-          />
-        </Form.Item>
-        <Form.Item>
-          <Input
-            prefix={<Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />}
-            type="password"
-            placeholder="Password"
-            id="password"
-            onChange={this.handleChange}
-          />
-        </Form.Item>
-        <Form.Item>
-          <Button type="primary" htmlType="submit">
-            Log in
-          </Button>
-        </Form.Item>
-      </Form>
-    );
-  }
-}
+  return (
+    <Form onSubmit={handleSubmit}>
+      <Form.Item>
+        <Input
+          prefix={<Icon type="mail" style={{ color: "rgba(0,0,0,.25)" }} />}
+          placeholder="Email"
+          id="email"
+          onChange={updateEmail}
+        />
+      </Form.Item>
+      <Form.Item>
+        <Input
+          prefix={<Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />}
+          type="password"
+          placeholder="Password"
+          id="password"
+          onChange={updatePassword}
+        />
+      </Form.Item>
+      <Form.Item>
+        <Button type="primary" htmlType="submit">
+          Log in
+        </Button>
+      </Form.Item>
+    </Form>
+  );
+};
 
 export default Login;
