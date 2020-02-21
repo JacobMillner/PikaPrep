@@ -16,6 +16,7 @@ from handlers.users import UsersHandler
 from handlers.meals import MealsHandler
 from handlers.user import UserHandler
 from handlers.login import LoginHandler
+from handlers.mealEntries import MealEntriesHandler
 
 class MainHandler(tornado.web.RequestHandler):
     def get(self):
@@ -42,6 +43,7 @@ def make_app():
         (r"/users/?", UsersHandler),
         (r"/meals/([0-9]+)", MealsHandler),
         (r"/meals/?", MealsHandler),
+        (r"/mealEntry/?", MealEntriesHandler),
         # TODO: combine user handlers?
         (r"/user/?", UserHandler),
         (r"/user/([^/]+)?", UserHandler),

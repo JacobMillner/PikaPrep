@@ -26,7 +26,7 @@ class PlanMeal extends Component {
   getPostData = () => {
     return {
       data: {
-        meal: this.state.meal,
+        meal: this.state.meal.id,
         date: this.state.date,
         user: authService.getCurrentUser()
       }
@@ -42,7 +42,7 @@ class PlanMeal extends Component {
       }
     }).then(res => {
       console.log(res);
-      this.props.history.push("/calendar");
+      //this.props.history.push("/calendar");
     });
   };
 
