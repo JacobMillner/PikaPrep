@@ -13,4 +13,5 @@ COPY . .
 
 EXPOSE 8888
 
-CMD ["python","-u","./src/server.py", "--no-debugger", "--no-reload"]
+
+CMD ["python","-u","./src/server.py"]

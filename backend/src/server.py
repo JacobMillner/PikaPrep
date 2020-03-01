@@ -18,22 +18,25 @@ from handlers.user import UserHandler
 from handlers.login import LoginHandler
 from handlers.mealEntries import MealEntriesHandler
 
+
 class MainHandler(tornado.web.RequestHandler):
     def get(self):
         self.write("Hello, world")
 
-# for testing purposes
 @login_required
 class TestHandler(SessionMixin, tornado.web.RequestHandler):
     async def get(self):
-            with self.make_session() as session:
-                count = await as_future(session.query(User).count)
-            self.write('{} users so far!'.format(count))
+        with self.make_session() as session:
+            count = await as_future(session.query(User).count)
+        self.write('{} users so far!'.format(count))
+
 
 def make_app():
     # generate database schema
     engine = create_engine(os.environ.get('DATABASE_URL'))
     Base.metadata.create_all(engine)
+
+    print(':: STARTING UP TORNADO SERVER ::')
 
     # async sessions with tornado-sqlalchemy!
     factory = make_session_factory(os.environ.get('DATABASE_URL'))
@@ -49,7 +52,8 @@ def make_app():
         (r"/user/([^/]+)?", UserHandler),
         (r"/login/?", LoginHandler),
     ],
-    session_factory = factory)
+        session_factory=factory)
+
 
 if __name__ == "__main__":
     app = make_app()
@@ -58,10 +62,11 @@ if __name__ == "__main__":
     # auto reload on file changes
     tornado.autoreload.start()
     for dir, _, files in os.walk('static'):
-        [tornado.autoreload.watch(dir + '/' + f) for f in files if not f.startswith('.')]
+        [tornado.autoreload.watch(dir + '/' + f)
+         for f in files if not f.startswith('.')]
 
     # TODO: Get remote debugging working.
     #ptvsd.enable_attach(address=('0.0.0.0', 8889))
-    #ptvsd.wait_for_attach()
+    # ptvsd.wait_for_attach()
     #print('ptvsd debugging is started')
     tornado.ioloop.IOLoop.current().start()
