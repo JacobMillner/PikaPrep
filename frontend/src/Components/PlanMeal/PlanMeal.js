@@ -42,7 +42,7 @@ class PlanMeal extends Component {
       }
     }).then(res => {
       console.log(res);
-      //this.props.history.push("/calendar");
+      this.props.history.push("/calendar");
     });
   };
 
