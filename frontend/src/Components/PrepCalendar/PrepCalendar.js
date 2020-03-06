@@ -1,12 +1,23 @@
 import React, { Component } from "react";
 import { Calendar } from "antd";
+import API from '../../Util/api';
 
 class PrepCalendar extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
+            mealEntries: {}
         };
+    }
+
+    async componentDidMount() {
+        const { match: { params } } = this.props;
+        const mealEntries = (await API.get(`/mealEntry/${params.id}`)).data;
+        console.log("Meal entries", mealEntries);
+        this.setState({
+            mealEntries: mealEntries.data
+        });
     }
 
     onPanelChange = (value, mode) => {

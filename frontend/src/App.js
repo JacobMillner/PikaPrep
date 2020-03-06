@@ -47,6 +47,7 @@ function App() {
                 <Route exact path="/planmeal/:id(\d+)" component={PlanMeal} />
                 <Route exact path="/meals/new" component={NewMeal} />
                 <Route exact path="/calendar/" component={PrepCalendar} />
+                <Route exact path="/calendar/:id(\d+)" component={PrepCalendar} />
               </Content>
               <Footer style={{ textAlign: "center" }}>
                 Jacob Millner ©2020

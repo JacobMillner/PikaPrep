@@ -17,7 +17,7 @@ class MealEntry(Entity, Base):
         self.meal_id = meal_id
 
     def __repr__(self):
-        return '<MealEntry %r>' % (self.username)
+        return '<MealEntry %r>' % (self.id)
 
 class MealEntrySchema(Schema):
     id = fields.Int()

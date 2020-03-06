@@ -41,8 +41,10 @@ class PlanMeal extends Component {
         Authorization: `Bearer ${tokenStr}`
       }
     }).then(res => {
-      console.log(res);
-      this.props.history.push("/calendar");
+      console.log("Meal Created: ", res);
+      let user = authService.getCurrentUser;
+      console.log("User: ", user);
+      this.props.history.push(`/calendar/${user.id}`);
     });
   };
 
