@@ -2,6 +2,7 @@ from sqlalchemy import Column, Integer, String, Date
 from marshmallow import Schema, fields
 from .entity import Entity, Base
 
+
 class MealEntry(Entity, Base):
     __tablename__ = 'mealEntries'
 
@@ -18,6 +19,7 @@ class MealEntry(Entity, Base):
 
     def __repr__(self):
         return '<MealEntry %r>' % (self.id)
+
 
 class MealEntrySchema(Schema):
     id = fields.Int()

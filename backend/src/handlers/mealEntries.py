@@ -35,14 +35,12 @@ class MealEntriesHandler(SessionMixin, BaseHandler):
 
     # get meal entries for individual uer
     async def get(self, uid):
-        logger.debug("UID: {0}".format(uid))
         with self.make_session() as session:
             mealEntry_objects = await as_future((session.query(MealEntry).filter(MealEntry.created_by == uid).all))
-        # transforming into JSON-serializable objects
-        if mealEntry_objects is not None:
-            schema = MealEntrySchema()
-            mealEntries = schema.dump(mealEntry_objects)
-            logger.debug("MealEntries: {0}".format(str(mealEntries)))
-            self.respond(mealEntries.data, "Success", 200)
-        else:
-            self.respond(msg="No User with that id!")
+            # transforming into JSON-serializable objects
+            if mealEntry_objects is not None:
+                schema = MealEntrySchema(many=True)
+                mealEntries = schema.dump(mealEntry_objects)
+                self.respond(mealEntries.data, "Success", 200)
+            else:
+                self.respond(msg="No User with that id!")
