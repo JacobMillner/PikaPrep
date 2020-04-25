@@ -4,6 +4,7 @@ from auth import has_auth
 from tornado_sqlalchemy import SessionMixin, as_future
 from .base import BaseHandler
 from entities.mealEntries import MealEntry, MealEntrySchema
+from loguru import logger
 
 
 class MealEntriesHandler(SessionMixin, BaseHandler):
@@ -17,6 +18,8 @@ class MealEntriesHandler(SessionMixin, BaseHandler):
             data = json_data['data']
             meal_id = data['meal']
             json_user = data['user']
+            logger.debug(json_user)
+            logger.debug("id: {0}".format(str(json_user['id'])))
             date = data['date']
             entry = MealEntry(
                 meal_date=date,
@@ -32,14 +35,14 @@ class MealEntriesHandler(SessionMixin, BaseHandler):
 
     # get meal entries for individual uer
     async def get(self, uid):
-        print("UID: {0}".format(uid))
+        logger.debug("UID: {0}".format(uid))
         with self.make_session() as session:
             mealEntry_objects = await as_future((session.query(MealEntry).filter(MealEntry.created_by == uid).all))
         # transforming into JSON-serializable objects
         if mealEntry_objects is not None:
             schema = MealEntrySchema()
             mealEntries = schema.dump(mealEntry_objects)
-            print("MealEntries: {0}".format(str(mealEntries)))
+            logger.debug("MealEntries: {0}".format(str(mealEntries)))
             self.respond(mealEntries.data, "Success", 200)
         else:
             self.respond(msg="No User with that id!")

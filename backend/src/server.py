@@ -2,6 +2,7 @@ import os
 import tornado.ioloop
 import tornado.web
 import ptvsd
+from loguru import logger
 from auth import login_required
 from sqlalchemy import create_engine
 from tornado_sqlalchemy import SessionMixin, as_future, make_session_factory
@@ -23,6 +24,7 @@ class MainHandler(tornado.web.RequestHandler):
     def get(self):
         self.write("Hello, world")
 
+
 @login_required
 class TestHandler(SessionMixin, tornado.web.RequestHandler):
     async def get(self):
@@ -36,7 +38,7 @@ def make_app():
     engine = create_engine(os.environ.get('DATABASE_URL'))
     Base.metadata.create_all(engine)
 
-    print(':: STARTING UP TORNADO SERVER ::')
+    logger.info(':: STARTING UP TORNADO SERVER ::')
 
     # async sessions with tornado-sqlalchemy!
     factory = make_session_factory(os.environ.get('DATABASE_URL'))
@@ -47,7 +49,7 @@ def make_app():
         (r"/meals/([0-9]+)", MealsHandler),
         (r"/meals/?", MealsHandler),
         (r"/mealEntry/?", MealEntriesHandler),
-        (r"/mealEntry/([^/]+)?", MealEntriesHandler),
+        (r"/mealEntry/([0-9]+)", MealEntriesHandler),
         # TODO: combine user handlers?
         (r"/user/?", UserHandler),
         (r"/user/([^/]+)?", UserHandler),

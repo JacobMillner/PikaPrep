@@ -2,6 +2,8 @@ import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { LoggedInContext } from "../../Context/is-logged-in-context";
 import { Menu, Icon, Layout } from "antd";
+import { authService } from "../../Services/AuthService";
+
 import "./MainNavBar.css";
 
 function MainNavBar(props) {
@@ -11,6 +13,8 @@ function MainNavBar(props) {
   const { SubMenu } = Menu;
 
   const { Sider } = Layout;
+
+  const userId= authService.getCurrentUser().id;
 
   const toggleCollapsed = () => {
     setcollapsed(!collapsed);
@@ -60,7 +64,7 @@ function MainNavBar(props) {
         )}
         {loggedIn && (
           <Menu.Item key="6">
-            <Link to="/calendar">
+            <Link to={"/calendar/" + userId}>
               <Icon type="calendar" />
               <span>Calendar</span>
             </Link>
