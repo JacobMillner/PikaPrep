@@ -14,7 +14,7 @@ function MainNavBar(props) {
 
   const { Sider } = Layout;
 
-  const userId= authService.getCurrentUser().id;
+  const userId = authService.getCurrentUser() ? authService.getCurrentUser().id : null;
 
   const toggleCollapsed = () => {
     setcollapsed(!collapsed);

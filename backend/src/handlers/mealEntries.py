@@ -33,8 +33,9 @@ class MealEntriesHandler(SessionMixin, BaseHandler):
         except KeyError as e:
             self.respond(msg=str(e), code=500)
 
-    # get meal entries for individual uer
+    # get meal entries for individual user
     async def get(self, uid):
+        # TODO: look up meals by id to get name
         with self.make_session() as session:
             mealEntry_objects = await as_future((session.query(MealEntry).filter(MealEntry.created_by == uid).all))
             # transforming into JSON-serializable objects

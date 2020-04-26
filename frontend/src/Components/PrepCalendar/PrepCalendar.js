@@ -14,6 +14,9 @@ class PrepCalendar extends Component {
     async componentDidMount() {
         let mealDic = {};
         const { match: { params } } = this.props;
+
+        // create dictionary with date key to quickly look up entries
+        // TODO: allow for multiple meal entries on same date.
         const mealEntries = (await API.get(`/mealEntry/${params.id}`)).data;
         mealEntries.data.map((mealEntry) => {
             mealDic[mealEntry.meal_date] = [mealEntry];
@@ -46,7 +49,6 @@ class PrepCalendar extends Component {
                 {
                     listData.map(item => (
                         <li key={item.content}>
-                            <span className={`event-${item.type}`}>●</span>
                             {item.content}
                         </li>
                     ))
