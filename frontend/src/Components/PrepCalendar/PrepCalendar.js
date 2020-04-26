@@ -12,11 +12,15 @@ class PrepCalendar extends Component {
     }
 
     async componentDidMount() {
+        let mealDic = {};
         const { match: { params } } = this.props;
         const mealEntries = (await API.get(`/mealEntry/${params.id}`)).data;
-        console.log("Meal entries", mealEntries);
+        mealEntries.data.map((mealEntry) => {
+            mealDic[mealEntry.meal_date] = [mealEntry];
+        });
+        console.log("Meal entries", mealDic);
         this.setState({
-            mealEntries: mealEntries.data
+            mealEntries: mealDic
         });
     }
 
@@ -26,35 +30,17 @@ class PrepCalendar extends Component {
 
     getCalData = (value) => {
         let listData;
-        switch (value.date()) {
-            case 8:
-                listData = [
-                    { type: 'warning', content: 'This is warning event.' },
-                    { type: 'normal', content: 'This is usual event.' },
-                ]; break;
-            case 10:
-                listData = [
-                    { type: 'warning', content: 'This is warning event.' },
-                    { type: 'normal', content: 'This is usual event.' },
-                    { type: 'error', content: 'This is error event.' },
-                ]; break;
-            case 15:
-                listData = [
-                    { type: 'warning', content: 'This is warning event' },
-                    { type: 'normal', content: 'This is very long usual event。。....' },
-                    { type: 'error', content: 'This is error event 1.' },
-                    { type: 'error', content: 'This is error event 2.' },
-                    { type: 'error', content: 'This is error event 3.' },
-                    { type: 'error', content: 'This is error event 4.' },
-                ]; break;
-            default:
+        if (this.state.mealEntries[value.format("YYYY-MM-DD")]) {
+            listData = [];
+            this.state.mealEntries[value.format("YYYY-MM-DD")].map((mealEntry) => {
+                listData.push({ type: 'normal', content: 'Meal ID: ' + mealEntry.meal_id});
+            });
         }
         return listData || [];
     }
 
     dateCellRender = (value) => {
         const listData = this.getCalData(value);
-        console.log(listData);
         return (
             <ul className="events">
                 {
