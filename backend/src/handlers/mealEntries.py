@@ -36,7 +36,6 @@ class MealEntriesHandler(SessionMixin, BaseHandler):
 
     # get meal entries for individual user
     async def get(self, uid):
-        # TODO: look up meals by id to get name
         with self.make_session() as session:
             mealEntry_objects = await as_future((session.query(MealEntry).filter(MealEntry.created_by == uid).all))
             # transforming into JSON-serializable objects
@@ -44,15 +43,19 @@ class MealEntriesHandler(SessionMixin, BaseHandler):
                 resp_data = []
                 schema = MealEntrySchema(many=True)
                 mealEntries = schema.dump(mealEntry_objects)
+                logger.debug(str(mealEntries))
                 for entry_obj in mealEntry_objects:
+                    logger.debug(str(entry_obj))
                     meal_object = await as_future((session.query(Meal).filter(Meal.id == entry_obj.meal_id).first))
                     entrySchema = MealEntrySchema()
                     mealSchema = MealSchema()
                     meal = mealSchema.dump(meal_object)
                     entry = entrySchema.dump(entry_obj)
                     entry_and_meal = {"entry": entry.data, "meal": meal.data}
+                    logger.debug("entry and meal " + str(entry_and_meal))
                     resp_data.append(entry_and_meal)
-                    # todo: respond with resp_data
-                self.respond(mealEntries.data, "Success", 200)
+                logger.debug("resp_data: " + " len(" +
+                             str(len(resp_data)) + ")" + str(resp_data))
+                self.respond(resp_data, "Success", 200)
             else:
                 self.respond(msg="No User with that id!")

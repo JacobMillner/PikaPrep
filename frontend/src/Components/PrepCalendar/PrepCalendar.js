@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import { Calendar } from "antd";
 import API from '../../Util/api';
 
@@ -19,7 +20,20 @@ class PrepCalendar extends Component {
         // TODO: allow for multiple meal entries on same date.
         const mealEntries = (await API.get(`/mealEntry/${params.id}`)).data;
         mealEntries.data.map((mealEntry) => {
-            mealDic[mealEntry.meal_date] = [mealEntry];
+            let totalCals = 0;
+            console.log("total cals: ", totalCals);
+            if (mealDic[mealEntry['entry'].meal_date]) {
+                let mealArray = mealDic[mealEntry['entry'].meal_date].mealEntries;
+                totalCals = mealEntry['entry'].calories;
+                console.log("total cals: ", totalCals);
+                let data = {'mealEntry': [mealEntry['meal']], 'totalCals': totalCals}
+                mealArray.push(data);
+            } else {
+                console.log("total cals: ", totalCals);
+                totalCals = mealEntry['entry'].calories;
+                let data = {'mealEntries': [mealEntry['meal']], 'totalCals': totalCals}
+                mealDic[mealEntry['entry'].meal_date] = data;
+            }
         });
         console.log("Meal entries", mealDic);
         this.setState({
@@ -35,8 +49,8 @@ class PrepCalendar extends Component {
         let listData;
         if (this.state.mealEntries[value.format("YYYY-MM-DD")]) {
             listData = [];
-            this.state.mealEntries[value.format("YYYY-MM-DD")].map((mealEntry) => {
-                listData.push({ type: 'normal', content: 'Meal ID: ' + mealEntry.meal_id});
+            this.state.mealEntries[value.format("YYYY-MM-DD")].mealEntries.map((mealEntry) => {
+                listData.push({ type: 'normal', content: mealEntry, totalCals: this.state.mealEntries[value.format("YYYY-MM-DD")].totalCals});
             });
         }
         return listData || [];
@@ -48,9 +62,12 @@ class PrepCalendar extends Component {
             <ul className="events">
                 {
                     listData.map(item => (
-                        <li key={item.content}>
-                            {item.content}
-                        </li>
+                        <Link to={"/meals/" + item.content.id}>
+                            <li key={item.content.id}>
+                                {item.content.name} - 
+                                Cals: {item.content.calories}
+                            </li>
+                        </Link>
                     ))
                 }
             </ul>
