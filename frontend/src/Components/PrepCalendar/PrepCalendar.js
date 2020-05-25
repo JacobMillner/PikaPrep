@@ -13,31 +13,14 @@ class PrepCalendar extends Component {
     }
 
     async componentDidMount() {
-        let mealDic = {};
         const { match: { params } } = this.props;
 
         // create dictionary with date key to quickly look up entries
         // TODO: allow for multiple meal entries on same date.
         const mealEntries = (await API.get(`/mealEntry/${params.id}`)).data;
-        mealEntries.data.map((mealEntry) => {
-            let totalCals = 0;
-            console.log("total cals: ", totalCals);
-            if (mealDic[mealEntry['entry'].meal_date]) {
-                let mealArray = mealDic[mealEntry['entry'].meal_date].mealEntries;
-                totalCals = mealEntry['entry'].calories;
-                console.log("total cals: ", totalCals);
-                let data = {'mealEntry': [mealEntry['meal']], 'totalCals': totalCals}
-                mealArray.push(data);
-            } else {
-                console.log("total cals: ", totalCals);
-                totalCals = mealEntry['entry'].calories;
-                let data = {'mealEntries': [mealEntry['meal']], 'totalCals': totalCals}
-                mealDic[mealEntry['entry'].meal_date] = data;
-            }
-        });
-        console.log("Meal entries", mealDic);
+        console.log("Meal entries", mealEntries);
         this.setState({
-            mealEntries: mealDic
+            mealEntries: mealEntries
         });
     }
 

@@ -31,9 +31,3 @@ function getJwt() {
   let jwt = localStorage.getItem("jwt");
   return jwt;
 }
-
-// const flipLogin = () => {
-//   const [loggedIn, setLoggedIn] = useContext(LoggedInContext);
-//   setLoggedIn(!loggedIn);
-//   return <div>goodbye!</div>;
-// };

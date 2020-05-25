@@ -56,6 +56,27 @@ class MealEntriesHandler(SessionMixin, BaseHandler):
                     resp_data.append(entry_and_meal)
                 logger.debug("resp_data: " + " len(" +
                              str(len(resp_data)) + ")" + str(resp_data))
-                self.respond(resp_data, "Success", 200)
+
+                # new resp for calendar
+                resp_dic = {}
+                for entry in resp_data:
+                    logger.debug("entry meal:")
+                    logger.debug(str(entry['meal']['calories']))
+                    data = {
+                        "meal": [entry['meal']],
+                        "total_cal": entry['meal']['calories']
+                    }
+                    if entry['entry']['meal_date'] not in resp_dic:
+                        resp_dic[entry['entry']['meal_date']] = data
+                    else:
+                        resp_dic[entry['entry']['meal_date']]['meal'].append(
+                            data['meal'])
+                        last_cal = int(
+                            resp_dic[entry['entry']['meal_date']]['total_cal'])
+                        current_cal = int(data['total_cal'])
+                        resp_dic[entry['entry']['meal_date']
+                                 ]['total_cal'] = current_cal + last_cal
+
+                self.respond(resp_dic, "Success", 200)
             else:
                 self.respond(msg="No User with that id!")
