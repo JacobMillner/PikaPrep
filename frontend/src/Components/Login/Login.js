@@ -1,7 +1,6 @@
-import React, { Component, useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import "./Login.css";
-import ValidateInput from "../../Validators/login";
-import API, { SetAuthorizationToken } from "../../Util/api";
+import API from "../../Util/api";
 import { Button, Input, Form, Icon, message } from "antd";
 import { LoggedInContext } from "../../Context/is-logged-in-context";
 
@@ -10,12 +9,7 @@ const FlipLogin = () => {};
 const Login = props => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
-  const [errors, setErrors] = useState();
   const [loggedIn, setLoggedIn] = useContext(LoggedInContext);
-
-  const validateForm = () => {
-    return email.length > 0 && password.length > 0;
-  };
 
   const updateEmail = event => {
     console.log(event.target.value);

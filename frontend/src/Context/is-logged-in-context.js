@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React  from "react";
 import { authService } from "../Services/AuthService";
 
 const LoggedInContext = React.createContext([{}, () => {}]);

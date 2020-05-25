@@ -8,9 +8,7 @@ import "./MainNavBar.css";
 
 function MainNavBar(props) {
   const [collapsed, setcollapsed] = useState(false);
-  const [loggedIn, setLoggedIn] = useContext(LoggedInContext);
-
-  const { SubMenu } = Menu;
+  const [loggedIn] = useContext(LoggedInContext);
 
   const { Sider } = Layout;
 

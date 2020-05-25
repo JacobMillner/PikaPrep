@@ -1,6 +1,3 @@
-import React, { useContext } from "react";
-import { LoggedInContext } from "../Context/is-logged-in-context";
-
 export const authService = {
   logout,
   isLoggedIn,
