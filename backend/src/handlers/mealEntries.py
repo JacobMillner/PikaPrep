@@ -60,8 +60,6 @@ class MealEntriesHandler(SessionMixin, BaseHandler):
                 # new resp for calendar
                 resp_dic = {}
                 for entry in resp_data:
-                    logger.debug("entry meal:")
-                    logger.debug(str(entry['meal']['calories']))
                     data = {
                         "meal": [entry['meal']],
                         "total_cal": entry['meal']['calories']
@@ -70,7 +68,7 @@ class MealEntriesHandler(SessionMixin, BaseHandler):
                         resp_dic[entry['entry']['meal_date']] = data
                     else:
                         resp_dic[entry['entry']['meal_date']]['meal'].append(
-                            data['meal'])
+                            data['meal'][0])
                         last_cal = int(
                             resp_dic[entry['entry']['meal_date']]['total_cal'])
                         current_cal = int(data['total_cal'])

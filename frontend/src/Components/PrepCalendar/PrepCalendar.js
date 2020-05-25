@@ -18,9 +18,9 @@ class PrepCalendar extends Component {
         // create dictionary with date key to quickly look up entries
         // TODO: allow for multiple meal entries on same date.
         const mealEntries = (await API.get(`/mealEntry/${params.id}`)).data;
-        console.log("Meal entries", mealEntries);
+        console.log("Meal entries", mealEntries.data);
         this.setState({
-            mealEntries: mealEntries
+            mealEntries: mealEntries.data
         });
     }
 
@@ -29,30 +29,36 @@ class PrepCalendar extends Component {
     }
 
     getCalData = (value) => {
-        let listData;
+        let listData = {};
         if (this.state.mealEntries[value.format("YYYY-MM-DD")]) {
-            listData = [];
-            this.state.mealEntries[value.format("YYYY-MM-DD")].mealEntries.map((mealEntry) => {
-                listData.push({ type: 'normal', content: mealEntry, totalCals: this.state.mealEntries[value.format("YYYY-MM-DD")].totalCals});
+            let mealData = [];
+            this.state.mealEntries[value.format("YYYY-MM-DD")].meal.map((mealEntry) => {
+                console.log("Meal entry mapping: ", mealEntry)
+                mealData.push({ type: 'normal', content: mealEntry, date: value.format("YYYY-MM-DD")});
             });
+            listData = {
+                meals: mealData,
+                totalCal: this.state.mealEntries[value.format("YYYY-MM-DD")].total_cal
+            }
         }
-        return listData || [];
+        return listData || {};
     }
 
     dateCellRender = (value) => {
         const listData = this.getCalData(value);
+        const meals = listData.meals || [];
         return (
             <ul className="events">
                 {
-                    listData.map(item => (
+                    meals.map(item => (
                         <Link to={"/meals/" + item.content.id}>
-                            <li key={item.content.id}>
-                                {item.content.name} - 
-                                Cals: {item.content.calories}
+                            <li key={item.date}>
+                                {item.content.name}
                             </li>
                         </Link>
                     ))
                 }
+                {listData.totalCal && (<li>Total Cal: {listData.totalCal}</li>)}
             </ul>
         );
     }
