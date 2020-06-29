@@ -4,7 +4,8 @@ import { authService } from "../../Services/AuthService";
 import { LoggedInContext } from "../../Context/is-logged-in-context";
 
 const Logout = () => {
-  const [loggedIn, setLoggedIn] = useContext(LoggedInContext);
+  // hacky way to only get the setter
+  const [, setLoggedIn] = useContext(LoggedInContext);
   // just logout the user and push back to home
   useEffect(() => {
     authService.logout();

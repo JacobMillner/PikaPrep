@@ -16,9 +16,7 @@ class PrepCalendar extends Component {
         const { match: { params } } = this.props;
 
         // create dictionary with date key to quickly look up entries
-        // TODO: allow for multiple meal entries on same date.
         const mealEntries = (await API.get(`/mealEntry/${params.id}`)).data;
-        console.log("Meal entries", mealEntries.data);
         this.setState({
             mealEntries: mealEntries.data
         });
@@ -33,8 +31,7 @@ class PrepCalendar extends Component {
         if (this.state.mealEntries[value.format("YYYY-MM-DD")]) {
             let mealData = [];
             this.state.mealEntries[value.format("YYYY-MM-DD")].meal.map((mealEntry) => {
-                console.log("Meal entry mapping: ", mealEntry)
-                mealData.push({ type: 'normal', content: mealEntry, date: value.format("YYYY-MM-DD")});
+                 return mealData.push({ type: 'normal', content: mealEntry, date: value.format("YYYY-MM-DD")});
             });
             listData = {
                 meals: mealData,

@@ -43,19 +43,14 @@ class MealEntriesHandler(SessionMixin, BaseHandler):
                 resp_data = []
                 schema = MealEntrySchema(many=True)
                 mealEntries = schema.dump(mealEntry_objects)
-                logger.debug(str(mealEntries))
                 for entry_obj in mealEntry_objects:
-                    logger.debug(str(entry_obj))
                     meal_object = await as_future((session.query(Meal).filter(Meal.id == entry_obj.meal_id).first))
                     entrySchema = MealEntrySchema()
                     mealSchema = MealSchema()
                     meal = mealSchema.dump(meal_object)
                     entry = entrySchema.dump(entry_obj)
                     entry_and_meal = {"entry": entry.data, "meal": meal.data}
-                    logger.debug("entry and meal " + str(entry_and_meal))
                     resp_data.append(entry_and_meal)
-                logger.debug("resp_data: " + " len(" +
-                             str(len(resp_data)) + ")" + str(resp_data))
 
                 # new resp for calendar
                 resp_dic = {}
