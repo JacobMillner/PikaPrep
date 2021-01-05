@@ -1,4 +1,7 @@
 # PikaPrep
+
+[![JacobMillner](https://circleci.com/gh/JacobMillner/PikaPrep.svg?style=svg)](https://app.circleci.com/pipelines/github/JacobMillner/PikaPrep?branch=circleci-project-setup)
+
 Lightweight meal planner using Tornado backend, React frontend, GraphQL and Docker compose.
 
 
