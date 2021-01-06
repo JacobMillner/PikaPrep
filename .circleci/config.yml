@@ -1,7 +1,38 @@
 version: 2.1
-orbs:
-  node: circleci/node@3.0.0
+jobs:
+  build:
+    docker:
+      - image: circleci/buildpack-deps:stretch
+    environment:
+      # TODO: replace these
+      IMAGE_NAME: REPO/IMAGE_NAME
+    working_directory: ~/app
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Build Client image
+          command: |
+            docker build -t $CLIENT_IMAGE_NAME:latest .
+      - run:
+          name: Build Server image
+          command: |
+            docker build -t $SERVER_IMAGE_NAME:latest .
+      - run:
+          name: Push Client Image
+          command: |
+            echo "$REPO_PASS" | docker login -u "$REPO_USERNAME" --password-stdin
+            docker push $CLIENT_IMAGE_NAME:latest
+      - run:
+          name: Push Server Image
+          command: |
+            echo "$REPO_PASS" | docker login -u "$REPO_USERNAME" --password-stdin
+            docker push $SERVER_IMAGE_NAME:latest
 workflows:
-  node-tests:
+  version: 2
+  build-master:
     jobs:
-      - node/test
+      - build:
+          filters:
+            branches:
+              only: master
