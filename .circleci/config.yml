@@ -1,38 +1,72 @@
-version: 2.1
+version: 2
 jobs:
-  build:
+  build-server:
+    environment:
+      IMAGE_NAME: jacobmillner/pika-prep-server
     docker:
       - image: circleci/buildpack-deps:stretch
-    environment:
-      # TODO: replace these
-      IMAGE_NAME: REPO/IMAGE_NAME
-    working_directory: ~/app
     steps:
       - checkout
       - setup_remote_docker
       - run:
-          name: Build Client image
-          command: |
-            docker build -t $CLIENT_IMAGE_NAME:latest .
+          name: Build Server Docker image
+          command: docker build -t $SERVER_IMAGE_NAME:latest backend/
+  publish-latest-server:
+    environment:
+      IMAGE_NAME: pika-prep-server
+    docker:
+      - image: circleci/buildpack-deps:stretch
+    steps:
+      - setup_remote_docker
       - run:
-          name: Build Server image
+          name: Publish Server Docker Image to Docker Hub
           command: |
-            docker build -t $SERVER_IMAGE_NAME:latest .
+            echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+            docker push $IMAGE_NAME:latest
+  build-client:
+    environment:
+      IMAGE_NAME: jacobmillner/pika-prep-client
+    docker:
+      - image: circleci/buildpack-deps:stretch
+    steps:
+      - checkout
+      - setup_remote_docker
       - run:
-          name: Push Client Image
-          command: |
-            echo "$REPO_PASS" | docker login -u "$REPO_USERNAME" --password-stdin
-            docker push $CLIENT_IMAGE_NAME:latest
+          name: Build Client Docker image
+          command: docker build -t $IMAGE_NAME:latest client/
+  publish-latest-client:
+    environment:
+      IMAGE_NAME: pika-prep-client
+    docker:
+      - image: circleci/buildpack-deps:stretch
+    steps:
+      - setup_remote_docker
       - run:
-          name: Push Server Image
+          name: Publish Client Image to Docker Hub
           command: |
-            echo "$REPO_PASS" | docker login -u "$REPO_USERNAME" --password-stdin
-            docker push $SERVER_IMAGE_NAME:latest
+            echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+            docker push $IMAGE_NAME:latest
 workflows:
   version: 2
   build-master:
     jobs:
-      - build:
+      - build-server:
+          filters:
+            branches:
+              only: master
+      - build-client:
+          filters:
+            branches:
+              only: master
+      - publish-latest-server:
+          requires:
+            - build-server
+          filters:
+            branches:
+              only: master
+      - publish-latest-client:
+          requires:
+            - build-client
           filters:
             branches:
               only: master
