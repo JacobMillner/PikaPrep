@@ -10,7 +10,7 @@ jobs:
       - setup_remote_docker
       - run:
           name: Build Server Docker image
-          command: docker build -t $SERVER_IMAGE_NAME:latest backend/
+          command: docker build -t $IMAGE_NAME:latest backend/
   publish-latest-server:
     environment:
       IMAGE_NAME: pika-prep-server
@@ -33,7 +33,7 @@ jobs:
       - setup_remote_docker
       - run:
           name: Build Client Docker image
-          command: docker build -t $IMAGE_NAME:latest client/
+          command: docker build -t $IMAGE_NAME:latest frontend/
   publish-latest-client:
     environment:
       IMAGE_NAME: pika-prep-client
