@@ -13,7 +13,7 @@ jobs:
           command: docker build -t $IMAGE_NAME:latest backend/
   publish-latest-server:
     environment:
-      IMAGE_NAME: pika-prep-server
+      IMAGE_NAME: jacobmillner/pika-prep-server
     docker:
       - image: circleci/buildpack-deps:stretch
     steps:
@@ -36,7 +36,7 @@ jobs:
           command: docker build -t $IMAGE_NAME:latest frontend/
   publish-latest-client:
     environment:
-      IMAGE_NAME: pika-prep-client
+      IMAGE_NAME: jacobmillner/pika-prep-client
     docker:
       - image: circleci/buildpack-deps:stretch
     steps:
