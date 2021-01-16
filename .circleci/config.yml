@@ -1,0 +1,72 @@
+version: 2
+jobs:
+  build-server:
+    environment:
+      IMAGE_NAME: jacobmillner/pika-prep-server
+    docker:
+      - image: circleci/buildpack-deps:stretch
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Build Server Docker image
+          command: docker build -t $SERVER_IMAGE_NAME:latest backend/
+  publish-latest-server:
+    environment:
+      IMAGE_NAME: pika-prep-server
+    docker:
+      - image: circleci/buildpack-deps:stretch
+    steps:
+      - setup_remote_docker
+      - run:
+          name: Publish Server Docker Image to Docker Hub
+          command: |
+            echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+            docker push $IMAGE_NAME:latest
+  build-client:
+    environment:
+      IMAGE_NAME: jacobmillner/pika-prep-client
+    docker:
+      - image: circleci/buildpack-deps:stretch
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Build Client Docker image
+          command: docker build -t $IMAGE_NAME:latest client/
+  publish-latest-client:
+    environment:
+      IMAGE_NAME: pika-prep-client
+    docker:
+      - image: circleci/buildpack-deps:stretch
+    steps:
+      - setup_remote_docker
+      - run:
+          name: Publish Client Image to Docker Hub
+          command: |
+            echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+            docker push $IMAGE_NAME:latest
+workflows:
+  version: 2
+  build-master:
+    jobs:
+      - build-server:
+          filters:
+            branches:
+              only: master
+      - build-client:
+          filters:
+            branches:
+              only: master
+      - publish-latest-server:
+          requires:
+            - build-server
+          filters:
+            branches:
+              only: master
+      - publish-latest-client:
+          requires:
+            - build-client
+          filters:
+            branches:
+              only: master
