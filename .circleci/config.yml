@@ -1,53 +1,80 @@
-version: 2
-jobs:
-  build-server:
+version: 2.1
+executors:
+  docker-publisher-server:
     environment:
-      IMAGE_NAME: pika-prep-server
+      IMAGE_NAME: jacobmillner/pika-prep-server
     docker:
       - image: circleci/buildpack-deps:stretch
+
+  docker-publisher-client:
+    environment:
+      IMAGE_NAME: jacobmillner/pika-prep-client
+    docker:
+      - image: circleci/buildpack-deps:stretch
+
+jobs:
+  build-server:
+    executor: docker-publisher-server
     steps:
       - checkout
       - setup_remote_docker
       - run:
           name: Build Server Docker image
           command: docker build -t $IMAGE_NAME:latest backend/
+      - run:
+          name: Archive Docker image
+          command: docker save -o image.tar $IMAGE_NAME
+      - persist_to_workspace:
+          root: .
+          paths:
+            - ./image.tar
+
   publish-latest-server:
-    environment:
-      IMAGE_NAME: pika-prep-server
-    docker:
-      - image: circleci/buildpack-deps:stretch
+    executor: docker-publisher-server
     steps:
+      - attach_workspace:
+          at: /tmp/workspace
       - setup_remote_docker
+      - run:
+          name: Load archived Docker Server image
+          command: docker load -i /tmp/workspace/image.tar
       - run:
           name: Publish Server Docker Image to Docker Hub
           command: |
-            cd backend
             echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
             docker push $IMAGE_NAME:latest
+
   build-client:
-    environment:
-      IMAGE_NAME: pika-prep-client
-    docker:
-      - image: circleci/buildpack-deps:stretch
+    executor: docker-publisher-client
     steps:
       - checkout
       - setup_remote_docker
       - run:
           name: Build Client Docker image
           command: docker build -t $IMAGE_NAME:latest frontend/
+      - run:
+          name: Archive Docker image
+          command: docker save -o image.tar $IMAGE_NAME
+      - persist_to_workspace:
+          root: .
+          paths:
+            - ./image.tar
+
   publish-latest-client:
-    environment:
-      IMAGE_NAME: pika-prep-client
-    docker:
-      - image: circleci/buildpack-deps:stretch
+    executor: docker-publisher-client
     steps:
+      - attach_workspace:
+          at: /tmp/workspace
       - setup_remote_docker
+      - run:
+          name: Load archived Docker Client image
+          command: docker load -i /tmp/workspace/image.tar
       - run:
           name: Publish Client Image to Docker Hub
           command: |
-            cd frontend
             echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
             docker push $IMAGE_NAME:latest
+
 workflows:
   version: 2
   build-master:
@@ -56,16 +83,19 @@ workflows:
           filters:
             branches:
               only: master
+
       - build-client:
           filters:
             branches:
               only: master
+
       - publish-latest-server:
           requires:
             - build-server
           filters:
             branches:
               only: master
+
       - publish-latest-client:
           requires:
             - build-client
