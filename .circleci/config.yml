@@ -2,13 +2,13 @@ version: 2.1
 executors:
   docker-publisher-server:
     environment:
-      IMAGE_NAME: jacobmillner/pika-prep-server
+      IMAGE_NAME: jmillner/pika-prep-server
     docker:
       - image: circleci/buildpack-deps:stretch
 
   docker-publisher-client:
     environment:
-      IMAGE_NAME: jacobmillner/pika-prep-client
+      IMAGE_NAME: jmillner/pika-prep-client
     docker:
       - image: circleci/buildpack-deps:stretch
 
