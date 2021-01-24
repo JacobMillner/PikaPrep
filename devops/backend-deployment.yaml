@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.21.0 (992df58d8)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: backend
+  name: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: backend
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.21.0 (992df58d8)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: backend
+    spec:
+      containers:
+      - env:
+        - name: APP_ENV
+          value: dev
+        - name: DATABASE_URL
+          value: postgres://myuser:mypassword@postgres:5432/pika_prep
+        - name: JWT_SECRET
+          value: my_secret_key
+        image: tornado
+        imagePullPolicy: ""
+        name: backend
+        ports:
+        - containerPort: 8888
+        - containerPort: 8889
+        resources: {}
+        volumeMounts:
+        - mountPath: /var/www/backend
+          name: backend-claim0
+      restartPolicy: Always
+      serviceAccountName: ""
+      volumes:
+      - name: backend-claim0
+        persistentVolumeClaim:
+          claimName: backend-claim0
+status: {}

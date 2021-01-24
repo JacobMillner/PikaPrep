@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.21.0 (992df58d8)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: frontend
+  name: frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: frontend
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.21.0 (992df58d8)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: frontend
+    spec:
+      containers:
+      - env:
+        - name: NODE_ENV
+          value: development
+        image: frontend
+        imagePullPolicy: ""
+        name: frontend
+        ports:
+        - containerPort: 3000
+        resources: {}
+        volumeMounts:
+        - mountPath: /var/www/frontend
+          name: frontend-claim0
+        - mountPath: /var/www/frontend/node_modules
+          name: frontend-claim1
+      restartPolicy: Always
+      serviceAccountName: ""
+      volumes:
+      - name: frontend-claim0
+        persistentVolumeClaim:
+          claimName: frontend-claim0
+      - name: frontend-claim1
+        persistentVolumeClaim:
+          claimName: frontend-claim1
+status: {}
