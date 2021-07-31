@@ -2,19 +2,19 @@ export const authService = {
   logout,
   isLoggedIn,
   getCurrentUser,
-  getJwt
+  getJwt,
 };
 
 function logout() {
-  localStorage.removeItem("jwt");
-  localStorage.removeItem("userName");
-  localStorage.removeItem("id");
-  localStorage.removeItem("email");
+  localStorage.removeItem('jwt');
+  localStorage.removeItem('userName');
+  localStorage.removeItem('id');
+  localStorage.removeItem('email');
   localStorage.clear();
 }
 
 function isLoggedIn() {
-  let user = localStorage.getItem("user");
+  let user = localStorage.getItem('user');
   if (user) {
     return true;
   } else {
@@ -23,11 +23,11 @@ function isLoggedIn() {
 }
 
 function getCurrentUser() {
-  let user = JSON.parse(localStorage.getItem("user"));
+  let user = JSON.parse(localStorage.getItem('user'));
   return user;
 }
 
 function getJwt() {
-  let jwt = localStorage.getItem("jwt");
+  let jwt = localStorage.getItem('jwt');
   return jwt;
 }

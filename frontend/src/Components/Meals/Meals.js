@@ -1,8 +1,8 @@
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import API from "../../Util/api";
-import { authService } from "../../Services/AuthService";
-import { Card, Row, Button } from "antd";
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import API from '../../Util/api';
+import { authService } from '../../Services/AuthService';
+import { Card, Row, Button } from 'antd';
 
 const { Meta } = Card;
 
@@ -11,14 +11,14 @@ class Meals extends Component {
     super(props);
 
     this.state = {
-      meals: null
+      meals: null,
     };
   }
 
   async componentDidMount() {
-    const meals = (await API.get("/meals")).data;
+    const meals = (await API.get('/meals')).data;
     this.setState({
-      meals: meals.data
+      meals: meals.data,
     });
   }
 
@@ -28,14 +28,14 @@ class Meals extends Component {
     return (
       <div>
         {loggedIn && (
-          <Link to={"/meals/new"}>
+          <Link to={'/meals/new'}>
             <Button type="primary">New Meal</Button>
           </Link>
         )}
         <Row type="flex" justify="space-between">
           {this.state.meals === null && <p>Loading meals...</p>}
           {this.state.meals &&
-            this.state.meals.map(meal => (
+            this.state.meals.map((meal) => (
               <div key={meal.id}>
                 <Link to={`/meals/${meal.id}`}>
                   <Card

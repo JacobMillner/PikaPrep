@@ -1,22 +1,22 @@
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import API from "../../Util/api";
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import API from '../../Util/api';
 
 class Meal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      meal: null
+      meal: null,
     };
   }
 
   async componentDidMount() {
     const {
-      match: { params }
+      match: { params },
     } = this.props;
     const meal = (await API.get(`/meals/${params.id}`)).data;
     this.setState({
-      meal: meal.data
+      meal: meal.data,
     });
   }
 

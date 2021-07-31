@@ -1,10 +1,10 @@
-import React, { useState, useContext } from "react";
-import { Link } from "react-router-dom";
-import { LoggedInContext } from "../../Context/is-logged-in-context";
-import { Menu, Icon, Layout } from "antd";
-import { authService } from "../../Services/AuthService";
+import React, { useState, useContext } from 'react';
+import { Link } from 'react-router-dom';
+import { LoggedInContext } from '../../Context/is-logged-in-context';
+import { Menu, Icon, Layout } from 'antd';
+import { authService } from '../../Services/AuthService';
 
-import "./MainNavBar.css";
+import './MainNavBar.css';
 
 function MainNavBar(props) {
   const [collapsed, setcollapsed] = useState(false);
@@ -12,7 +12,9 @@ function MainNavBar(props) {
 
   const { Sider } = Layout;
 
-  const userId = authService.getCurrentUser() ? authService.getCurrentUser().id : null;
+  const userId = authService.getCurrentUser()
+    ? authService.getCurrentUser().id
+    : null;
 
   const toggleCollapsed = () => {
     setcollapsed(!collapsed);
@@ -21,7 +23,7 @@ function MainNavBar(props) {
   return (
     <Sider collapsible collapsed={collapsed} onCollapse={toggleCollapsed}>
       <div className="logo" />
-      <Menu theme="dark" defaultSelectedKeys={["1"]} mode="inline">
+      <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
         <Menu.Item key="1">
           <Link to="/">
             <Icon type="home" />
@@ -62,7 +64,7 @@ function MainNavBar(props) {
         )}
         {loggedIn && (
           <Menu.Item key="6">
-            <Link to={"/calendar/" + userId}>
+            <Link to={'/calendar/' + userId}>
               <Icon type="calendar" />
               <span>Calendar</span>
             </Link>

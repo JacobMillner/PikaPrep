@@ -1,7 +1,7 @@
-import React, { Component } from "react";
-import API from "../../Util/api";
-import { authService } from "../../Services/AuthService";
-import { DatePicker, Button } from "antd";
+import React, { Component } from 'react';
+import API from '../../Util/api';
+import { authService } from '../../Services/AuthService';
+import { DatePicker, Button } from 'antd';
 
 class PlanMeal extends Component {
   constructor(props) {
@@ -9,17 +9,17 @@ class PlanMeal extends Component {
 
     this.state = {
       meal: null,
-      date: null
+      date: null,
     };
   }
 
   async componentDidMount() {
     const {
-      match: { params }
+      match: { params },
     } = this.props;
     const meal = (await API.get(`/meals/${params.id}`)).data;
     this.setState({
-      meal: meal.data
+      meal: meal.data,
     });
   }
 
@@ -28,29 +28,29 @@ class PlanMeal extends Component {
       data: {
         meal: this.state.meal.id,
         date: this.state.date,
-        user: authService.getCurrentUser()
-      }
+        user: authService.getCurrentUser(),
+      },
     };
   };
 
-  handleSubmit = event => {
+  handleSubmit = (event) => {
     event.preventDefault();
     let tokenStr = authService.getJwt();
-    API.post("/mealEntry", this.getPostData(), {
+    API.post('/mealEntry', this.getPostData(), {
       headers: {
-        Authorization: `Bearer ${tokenStr}`
-      }
-    }).then(res => {
-      console.log("Meal Entry Created: ", res);
+        Authorization: `Bearer ${tokenStr}`,
+      },
+    }).then((res) => {
+      console.log('Meal Entry Created: ', res);
       let user = authService.getCurrentUser();
-      console.log("User: ", user);
+      console.log('User: ', user);
       this.props.history.push(`/calendar/${user.id}`);
     });
   };
 
-  changeDate = date => {
+  changeDate = (date) => {
     this.setState({
-      date: date.format("YYYY-MM-DD HH:mm:ss")
+      date: date.format('YYYY-MM-DD HH:mm:ss'),
     });
   };
 
