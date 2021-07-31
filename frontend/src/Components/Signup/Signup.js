@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import API from '../../Util/api';
 import { Button, Input, Form, Icon, message } from 'antd';
 
+import './signup.css';
+
 class Signup extends Component {
   constructor(props) {
     super(props);
@@ -29,12 +31,13 @@ class Signup extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-
-    API.post('/user', this.getPostData()).then((res) => {
-      console.log(res);
-      message.success('User created!');
-      this.props.history.push('/');
-    });
+    if (this.validateForm) {
+      API.post('/user', this.getPostData()).then((res) => {
+        console.log(res);
+        message.success('User created!');
+        this.props.history.push('/');
+      });
+    }
   };
 
   validateForm() {
@@ -47,8 +50,25 @@ class Signup extends Component {
 
   render() {
     return (
-      <Form onSubmit={this.handleSubmit}>
-        <Form.Item>
+      <Form
+        onSubmit={this.handleSubmit}
+        labelCol={{
+          span: 8,
+        }}
+        wrapperCol={{
+          span: 16,
+        }}
+      >
+        <Form.Item
+          label="Email"
+          name="email"
+          rules={[
+            {
+              required: true,
+              message: 'Please input your email!',
+            },
+          ]}
+        >
           <Input
             prefix={<Icon type="mail" style={{ color: 'rgba(0,0,0,.25)' }} />}
             placeholder="Email"
@@ -73,7 +93,12 @@ class Signup extends Component {
             onChange={this.handleChange}
           />
         </Form.Item>
-        <Form.Item>
+        <Form.Item
+          wrapperCol={{
+            offset: 8,
+            span: 16,
+          }}
+        >
           <Button type="primary" htmlType="submit">
             Signup
           </Button>
